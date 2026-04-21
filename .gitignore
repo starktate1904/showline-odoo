@@ -1,0 +1,44 @@
+# Docker volumes and data
+volumes/
+odoo-db-data/
+odoo-web-data/
+
+# Odoo specific
+odoo/filestore/
+odoo/sessions/
+*.pyc
+*.pyo
+__pycache__/
+*.log
+*.pid
+
+# Configuration files with sensitive data
+config/odoo.conf
+.env
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup
+*.sql
+*.zip
+*.tar.gz
+
+# Addons (except custom ones)
+# Uncomment if you want to track custom addons
+# !addons/
+# addons/*
+# !addons/muk_web_theme/
+# !addons/__init__.py
