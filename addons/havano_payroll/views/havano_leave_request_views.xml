@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Leave Allocation List -->
+    <record id="view_havano_leave_allocation_list" model="ir.ui.view">
+        <field name="name">havano.leave.allocation.list</field>
+        <field name="model">havano.leave.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Leave Allocations" editable="bottom">
+                <field name="employee_id"/>
+                <field name="leave_type_id"/>
+                <field name="entitled_days"/>
+                <field name="taken_days"/>
+                <field name="planned_days"/>
+                <field name="remaining_days" widget="badge"/>
+                <field name="year"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_havano_leave_allocation" model="ir.actions.act_window">
+        <field name="name">Leave Allocations</field>
+        <field name="res_model">havano.leave.allocation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem id="menu_havano_leave_allocation"
+              name="Leave Allocations"
+              parent="menu_havano_payroll_config"
+              action="action_havano_leave_allocation"
+              sequence="30"/>
+    
+    <!-- Leave Request List -->
+    <record id="view_havano_leave_request_list" model="ir.ui.view">
+        <field name="name">havano.leave.request.list</field>
+        <field name="model">havano.leave.request</field>
+        <field name="arch" type="xml">
+            <list string="Leave Requests">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="leave_type_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="number_of_days"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_havano_leave_request_form" model="ir.ui.view">
+        <field name="name">havano.leave.request.form</field>
+        <field name="model">havano.leave.request</field>
+        <field name="arch" type="xml">
+            <form string="Leave Request">
+                <header>
+                    <button name="action_request" type="object" string="Submit Request" class="oe_highlight" invisible="state!='draft'"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state!='requested'"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state!='requested'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('draft','requested')"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state!='draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                            <field name="leave_type_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="number_of_days"/>
+                        </group>
+                    </group>
+                    <group string="Reason">
+                        <field name="reason" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_havano_leave_request" model="ir.actions.act_window">
+        <field name="name">Leave Requests</field>
+        <field name="res_model">havano.leave.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem id="menu_havano_leave_request"
+              name="Leave Requests"
+              parent="menu_havano_payroll_root"
+              action="action_havano_leave_request"
+              sequence="25"/>
+    
+</odoo>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Employee Form View - Add Earnings, Deductions, and Summary Tabs (UI Only) -->
+    <record id="view_hr_employee_form_salary_tabs" model="ir.ui.view">
+        <field name="name">hr.employee.form.salary.tabs</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            
+            <notebook position="inside">
+                
+                <!-- EARNINGS TAB -->
+                <page string="Earnings" name="employee_earnings">
+                    
+                    <div class="o_horizontal_separator">Earnings &amp; Allowances</div>
+                    
+                    <!-- Static Earnings Table -->
+                    <div class="table-responsive">
+                        <table class="o_group o_inner_group salary-summary-table">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                    <th style="padding: 12px 15px;">Component</th>
+                                    <th style="padding: 12px 15px;">Category</th>
+                                    <th style="padding: 12px 15px; text-align: right;">Amount (USD)</th>
+                                    <th style="padding: 12px 15px; text-align: right;">Amount (ZWG)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="color: #28a745;">
+                                    <td style="padding: 10px 15px;"><strong>Basic Salary</strong></td>
+                                    <td style="padding: 10px 15px;">Basic</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$6,500.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 42,250.00</td>
+                                </tr>
+                                <tr style="color: #28a745;">
+                                    <td style="padding: 10px 15px;"><strong>Housing Allowance</strong></td>
+                                    <td style="padding: 10px 15px;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$1,200.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 7,800.00</td>
+                                </tr>
+                                <tr style="color: #28a745;">
+                                    <td style="padding: 10px 15px;"><strong>Transport Allowance</strong></td>
+                                    <td style="padding: 10px 15px;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$350.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 2,275.00</td>
+                                </tr>
+                                <tr style="color: #28a745;">
+                                    <td style="padding: 10px 15px;"><strong>Fuel Allowance</strong></td>
+                                    <td style="padding: 10px 15px;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$200.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 1,300.00</td>
+                                </tr>
+                                <tr style="background-color: #e9ecef; font-weight: 700;">
+                                    <td colspan="2" style="padding: 10px 15px;"><strong>Total Earnings</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;"><strong>$8,250.00</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;"><strong>ZWG 53,625.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="oe_clearfix"/>
+                    
+                    <!-- Legend -->
+                    <group string="Legend" class="oe_inline mt16">
+                        <div class="text-muted">
+                            <span class="badge" style="background-color: #28a745; padding: 5px 10px;">■</span> Earning Component
+                            <span class="badge ml-3" style="background-color: #17a2b8; padding: 5px 10px;">■</span> Base Currency (USD)
+                            <span class="badge ml-3" style="background-color: #6c757d; padding: 5px 10px;">■</span> Local Currency (ZWG)
+                        </div>
+                    </group>
+                    
+                    <div class="alert alert-info mt16" role="alert">
+                        <i class="fa fa-info-circle"/> Earnings are based on the employee's assigned salary structure.
+                    </div>
+                    
+                </page>
+                
+                <!-- DEDUCTIONS TAB -->
+                <page string="Deductions" name="employee_deductions">
+                    
+                    <div class="o_horizontal_separator">Deductions &amp; Taxes</div>
+                    
+                    <!-- Static Deductions Table -->
+                    <div class="table-responsive">
+                        <table class="o_group o_inner_group salary-summary-table">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                    <th style="padding: 12px 15px;">Component</th>
+                                    <th style="padding: 12px 15px;">Category</th>
+                                    <th style="padding: 12px 15px; text-align: right;">Amount (USD)</th>
+                                    <th style="padding: 12px 15px; text-align: right;">Amount (ZWG)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px;"><strong>PAYE (Income Tax)</strong></td>
+                                    <td style="padding: 10px 15px;">Tax</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$1,825.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 11,862.50</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px;"><strong>NSSA (Employee)</strong></td>
+                                    <td style="padding: 10px 15px;">NSSA</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$31.50</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 204.75</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px;"><strong>AIDS Levy</strong></td>
+                                    <td style="padding: 10px 15px;">Tax</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$54.75</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 355.88</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px;"><strong>NEC Contribution</strong></td>
+                                    <td style="padding: 10px 15px;">NEC</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$97.50</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 633.75</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px;"><strong>Medical Aid</strong></td>
+                                    <td style="padding: 10px 15px;">Medical Aid</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$150.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 975.00</td>
+                                </tr>
+                                <tr style="background-color: #e9ecef; font-weight: 700;">
+                                    <td colspan="2" style="padding: 10px 15px;"><strong>Total Deductions</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;"><strong>$2,158.75</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;"><strong>ZWG 14,031.88</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="oe_clearfix"/>
+                    
+                    <!-- Legend -->
+                    <group string="Legend" class="oe_inline mt16">
+                        <div class="text-muted">
+                            <span class="badge" style="background-color: #dc3545; padding: 5px 10px;">■</span> Deduction Component
+                            <span class="badge ml-3" style="background-color: #17a2b8; padding: 5px 10px;">■</span> Base Currency (USD)
+                            <span class="badge ml-3" style="background-color: #6c757d; padding: 5px 10px;">■</span> Local Currency (ZWG)
+                        </div>
+                    </group>
+                    
+                </page>
+                
+                <!-- SUMMARY TAB -->
+                <page string="Salary Summary" name="employee_salary_summary">
+                    
+                    <div class="o_horizontal_separator">Complete Salary Breakdown</div>
+                    
+                    <!-- Static Summary Table -->
+                    <div class="table-responsive">
+                        <table class="o_group o_inner_group salary-summary-table">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                    <th colspan="4" style="padding: 12px 15px; text-align: center; font-size: 1.1em;">
+                                        Salary Summary for Abigail Peterson
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #e9ecef; font-weight: 700;">
+                                    <td colspan="4" style="padding: 10px 15px;">EARNINGS</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 15px; padding-left: 30px;">Basic Salary</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Basic</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$6,500.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 42,250.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 15px; padding-left: 30px;">Housing Allowance</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$1,200.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 7,800.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 15px; padding-left: 30px;">Transport Allowance</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$350.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 2,275.00</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 15px; padding-left: 30px;">Fuel Allowance</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Allowances</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$200.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 1,300.00</td>
+                                </tr>
+                                <tr style="font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px 15px;"><strong>Gross Earnings</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;"><strong>$8,250.00</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;"><strong>ZWG 53,625.00</strong></td>
+                                </tr>
+                                
+                                <tr style="background-color: #e9ecef; font-weight: 700;">
+                                    <td colspan="4" style="padding: 10px 15px;">DEDUCTIONS</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px; padding-left: 30px;">PAYE (Income Tax)</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Tax</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$1,825.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 11,862.50</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px; padding-left: 30px;">NSSA (Employee)</td>
+                                    <td style="padding: 10px 15px; text-align: center;">NSSA</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$31.50</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 204.75</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px; padding-left: 30px;">AIDS Levy</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Tax</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$54.75</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 355.88</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px; padding-left: 30px;">NEC Contribution</td>
+                                    <td style="padding: 10px 15px; text-align: center;">NEC</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$97.50</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 633.75</td>
+                                </tr>
+                                <tr style="color: #dc3545;">
+                                    <td style="padding: 10px 15px; padding-left: 30px;">Medical Aid</td>
+                                    <td style="padding: 10px 15px; text-align: center;">Medical Aid</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;">$150.00</td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;">ZWG 975.00</td>
+                                </tr>
+                                <tr style="font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px 15px;"><strong>Total Deductions</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #17a2b8;"><strong>$2,158.75</strong></td>
+                                    <td style="padding: 10px 15px; text-align: right; color: #6c757d;"><strong>ZWG 14,031.88</strong></td>
+                                </tr>
+                                
+                                <tr style="background-color: #d4edda; font-weight: 700; font-size: 1.1em;">
+                                    <td colspan="2" style="padding: 15px;"><strong>NET SALARY</strong></td>
+                                    <td style="padding: 15px; text-align: right; color: #17a2b8; font-size: 1.2em;"><strong>$6,091.25</strong></td>
+                                    <td style="padding: 15px; text-align: right; color: #6c757d; font-size: 1.2em;"><strong>ZWG 39,593.12</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Net Salary Summary Cards -->
+                    <div class="oe_clearfix mt16"/>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="alert alert-success text-center" role="alert">
+                                <h5>Gross Earnings</h5>
+                                <h3 style="color: #17a2b8;">$8,250.00</h3>
+                                <small class="text-muted">ZWG 53,625.00</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="alert alert-danger text-center" role="alert">
+                                <h5>Total Deductions</h5>
+                                <h3 style="color: #dc3545;">$2,158.75</h3>
+                                <small class="text-muted">ZWG 14,031.88</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="alert alert-info text-center" role="alert">
+                                <h5>Net Salary</h5>
+                                <h3 style="color: #28a745;">$6,091.25</h3>
+                                <small class="text-muted">ZWG 39,593.12</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tax Information Summary -->
+                    <group string="Tax &amp; Statutory Information" class="mt16">
+                        <group>
+                            <label for="tin_number" string="TIN Number"/>
+                            <div>123-456-789</div>
+                            
+                            <label for="nssa_number" string="NSSA Number"/>
+                            <div>NSSA-2024-001</div>
+                            
+                            <label for="national_id" string="National ID"/>
+                            <div>63-1234567-A-12</div>
+                        </group>
+                        <group>
+                            <label for="total_tax_credits" string="Tax Credits"/>
+                            <div>$75.00</div>
+                            
+                            <label for="medical_aid_amount" string="Medical Aid Contribution"/>
+                            <div>$150.00</div>
+                            
+                            <label for="ec_number" string="EC Number"/>
+                            <div>EC-2024-12345</div>
+                        </group>
+                    </group>
+                    
+                </page>
+                
+            </notebook>
+            
+        </field>
+    </record>
+
+</odoo>

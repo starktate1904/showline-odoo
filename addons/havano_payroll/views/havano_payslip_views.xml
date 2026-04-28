@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- List View -->
+    <record id="view_havano_payslip_list" model="ir.ui.view">
+        <field name="name">havano.payslip.list</field>
+        <field name="model">havano.payslip</field>
+        <field name="arch" type="xml">
+            <list string="Payslips">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="net_salary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge" decoration-success="state=='paid'" decoration-warning="state=='confirmed'"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Form View -->
+    <record id="view_havano_payslip_form" model="ir.ui.view">
+        <field name="name">havano.payslip.form</field>
+        <field name="model">havano.payslip</field>
+        <field name="arch" type="xml">
+            <form string="Payslip">
+                <header>
+                    <button name="action_generate_lines" type="object" string="Generate Lines" class="oe_highlight" invisible="state!='draft'"/>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state!='draft'"/>
+                    <button name="action_paid" type="object" string="Mark Paid" invisible="state!='confirmed'"/>
+                    <button name="action_draft" type="object" string="Set to Draft" invisible="state=='draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Earnings">
+                            <field name="payslip_earning_ids">
+                                <list>
+                                    <field name="component_id"/>
+                                    <field name="amount" widget="monetary" sum="Total"/>
+                                    <field name="secondary_amount" widget="monetary" sum="Total (Sec)"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Deductions">
+                            <field name="payslip_deduction_ids">
+                                <list>
+                                    <field name="component_id"/>
+                                    <field name="amount" widget="monetary" sum="Total"/>
+                                    <field name="secondary_amount" widget="monetary" sum="Total (Sec)"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Summary">
+                            <group>
+                                <group string="Primary Currency">
+                                    <field name="total_earnings" string="Total Earnings"/>
+                                    <field name="total_allowable_deductions" string="Allowable Deductions (NSSA)"/>
+                                    <field name="taxable_income" string="Taxable Income"/>
+                                    <field name="total_deductions" string="Total Deductions"/>
+                                    <field name="net_salary" string="Net Salary" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <group string="Secondary Currency">
+                                    <field name="secondary_total_earnings" string="Total Earnings"/>
+                                    <field name="secondary_allowable_deductions" string="Allowable Deductions (NSSA)"/>
+                                    <field name="secondary_taxable_income" string="Taxable Income"/>
+                                    <field name="secondary_total_deductions" string="Total Deductions"/>
+                                    <field name="secondary_net_salary" string="Net Salary" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- QWeb Report Template -->
+    <template id="report_payslip_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center mb-3">PAYSLIP</h2>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Employee:</strong> <span t-field="doc.employee_id.name"/><br/>
+                                <strong>Company:</strong> <span t-field="doc.company_id.name"/>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong>Period:</strong> <span t-field="doc.date_from"/> - <span t-field="doc.date_to"/><br/>
+                                <strong>Reference:</strong> <span t-field="doc.name"/>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-bordered table-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-right">Amount (Primary)</th>
+                                    <th class="text-right">Amount (Secondary)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- EARNINGS -->
+                                <tr class="table-success">
+                                    <td colspan="3"><strong>EARNINGS</strong></td>
+                                </tr>
+                                <t t-foreach="doc.payslip_earning_ids" t-as="e">
+                                    <tr>
+                                        <td><span t-field="e.component_id.name"/></td>
+                                        <td class="text-right"><span t-field="e.amount"/></td>
+                                        <td class="text-right"><span t-field="e.secondary_amount"/></td>
+                                    </tr>
+                                </t>
+                                <tr class="font-weight-bold">
+                                    <td><strong>Total Earnings</strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.total_earnings"/></strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.secondary_total_earnings"/></strong></td>
+                                </tr>
+                                
+                                <!-- TAX INFORMATION -->
+                                <tr class="table-info">
+                                    <td colspan="3"><strong>TAX INFORMATION</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>NSSA (Allowable Deduction)</td>
+                                    <td class="text-right"><span t-field="doc.total_allowable_deductions"/></td>
+                                    <td class="text-right"><span t-field="doc.secondary_allowable_deductions"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Taxable Income</strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.taxable_income"/></strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.secondary_taxable_income"/></strong></td>
+                                </tr>
+                                
+                                <!-- DEDUCTIONS -->
+                                <tr class="table-danger">
+                                    <td colspan="3"><strong>DEDUCTIONS</strong></td>
+                                </tr>
+                                <t t-foreach="doc.payslip_deduction_ids" t-as="d">
+                                    <tr>
+                                        <td><span t-field="d.component_id.name"/></td>
+                                        <td class="text-right"><span t-field="d.amount"/></td>
+                                        <td class="text-right"><span t-field="d.secondary_amount"/></td>
+                                    </tr>
+                                </t>
+                                <tr class="font-weight-bold">
+                                    <td><strong>Total Deductions</strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.total_deductions"/></strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.secondary_total_deductions"/></strong></td>
+                                </tr>
+                                
+                                <!-- NET SALARY -->
+                                <tr style="font-size: 1.3em; background-color: #d4edda !important;">
+                                    <td><strong>NET SALARY</strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.net_salary"/></strong></td>
+                                    <td class="text-right"><strong><span t-field="doc.secondary_net_salary"/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>Employee Signature: ___________________</p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p>Authorized Signature: ___________________</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+    <!-- Report Action -->
+    <record id="action_report_payslip" model="ir.actions.report">
+        <field name="name">Payslip</field>
+        <field name="model">havano.payslip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">havano_payroll.report_payslip_template</field>
+        <field name="binding_model_id" ref="model_havano_payslip"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">('Payslip - %s' % object.employee_id.name)</field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_havano_payslip" model="ir.actions.act_window">
+        <field name="name">Payslips</field>
+        <field name="res_model">havano.payslip</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Menu -->
+    <menuitem id="menu_havano_payslip"
+              name="Payslips"
+              parent="menu_havano_payroll_root"
+              action="action_havano_payslip"
+              sequence="20"/>
+    
+</odoo>

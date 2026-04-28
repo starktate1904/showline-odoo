@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Rule List View -->
+    <record id="view_havano_salary_component_rule_list" model="ir.ui.view">
+        <field name="name">havano.salary.component.rule.list</field>
+        <field name="model">havano.salary.component.rule</field>
+        <field name="arch" type="xml">
+            <list string="Salary Component Rules" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="component_id" required="1"/>
+                <field name="name"/>
+                <field name="rule_type" widget="badge"/>
+                <field name="percentage" widget="badge"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Rule Form View -->
+    <record id="view_havano_salary_component_rule_form" model="ir.ui.view">
+        <field name="name">havano.salary.component.rule.form</field>
+        <field name="model">havano.salary.component.rule</field>
+        <field name="arch" type="xml">
+            <form string="Salary Component Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Rule Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="component_id" required="1"/>
+                            <field name="sequence"/>
+                            <field name="rule_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="percentage"/>
+                            <field name="percentage_base"/>
+                            <field name="frequency"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Tax Credits">
+                        <field name="tax_credit_component_ids" widget="many2many_tags"/>
+                    </group>
+                    
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_havano_salary_component_rule" model="ir.actions.act_window">
+        <field name="name">Salary Component Rules</field>
+        <field name="res_model">havano.salary.component.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Menu -->
+    <menuitem id="menu_havano_salary_component_rule"
+              name="Salary Component Rules"
+              parent="menu_havano_payroll_config"
+              action="action_havano_salary_component_rule"
+              sequence="15"/>
+    
+</odoo>

@@ -1,0 +1,176 @@
+
+                /* Salary Table Styling */
+                .oe_employee_salary_table {
+                    width: 100%;
+                    overflow-x: auto;
+                }
+                
+                .salary-summary-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 16px 0;
+                    font-size: 14px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                   /* Salary Table Styling */
+                .salary-summary-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 16px 0;
+                    font-size: 14px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+                
+                .salary-summary-table thead tr {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                }
+                
+                .salary-summary-table th {
+                    padding: 12px 15px;
+                    text-align: left;
+                    font-weight: 600;
+                    border-right: 1px solid rgba(255,255,255,0.2);
+                }
+                
+                .salary-summary-table th:last-child {
+                    border-right: none;
+                }
+                
+                .salary-summary-table td {
+                    padding: 10px 15px;
+                    border-bottom: 1px solid #e0e0e0;
+                }
+                
+                .salary-summary-table tbody tr:hover {
+                    background-color: #f8f9fa;
+                }
+                
+                .salary-summary-table .text-right {
+                    text-align: right;
+                }
+                
+                .salary-summary-table .text-center {
+                    text-align: center;
+                }
+                
+                /* Currency badges */
+                .currency-badge {
+                    display: inline-block;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    margin-left: 8px;
+                }
+                
+                .currency-badge.usd {
+                    background-color: #17a2b8;
+                    color: white;
+                }
+                
+                .currency-badge.ZWG {
+                    background-color: #ffc107;
+                    color: #333;
+                }
+                
+                /* Tab icons enhancement */
+                .o_notebook .nav-link i {
+                    margin-right: 8px;
+                }
+                .salary-summary-table thead tr {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                }
+                
+                .salary-summary-table th {
+                    padding: 12px 15px;
+                    text-align: left;
+                    font-weight: 600;
+                    border-right: 1px solid rgba(255,255,255,0.2);
+                }
+                
+                .salary-summary-table th:last-child {
+                    border-right: none;
+                }
+                
+                .salary-summary-table td {
+                    padding: 10px 15px;
+                    border-bottom: 1px solid #e0e0e0;
+                }
+                
+                .salary-summary-table tbody tr:hover {
+                    background-color: #f8f9fa;
+                }
+                
+                .salary-summary-table .category-header {
+                    background-color: #e9ecef;
+                    font-weight: 700;
+                }
+                
+                .salary-summary-table .earning-row {
+                    color: #28a745;
+                }
+                
+                .salary-summary-table .deduction-row {
+                    color: #dc3545;
+                }
+                
+                .salary-summary-table .net-row {
+                    background-color: #d4edda;
+                    font-weight: 700;
+                    font-size: 1.1em;
+                }
+                
+                .salary-summary-table .currency-primary {
+                    color: #17a2b8;
+                    font-weight: 500;
+                }
+                
+                .salary-summary-table .currency-secondary {
+                    color: #6c757d;
+                    font-style: italic;
+                }
+                
+                .salary-summary-table .text-right {
+                    text-align: right;
+                }
+                
+                .salary-summary-table .text-center {
+                    text-align: center;
+                }
+                
+                /* Multi-currency display */
+                .currency-badge {
+                    display: inline-block;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    margin-left: 8px;
+                }
+                
+                .currency-badge.usd {
+                    background-color: #17a2b8;
+                    color: white;
+                }
+                
+                .currency-badge.ZWG {
+                    background-color: #ffc107;
+                    color: #333;
+                }
+                
+                /* Tab icons */
+                .nav-tabs .nav-link[aria-controls*="earnings"] i {
+                    color: #28a745;
+                }
+                
+                .nav-tabs .nav-link[aria-controls*="deductions"] i {
+                    color: #dc3545;
+                }
+                
+                .nav-tabs .nav-link[aria-controls*="summary"] i {
+                    color: #667eea;
+                }

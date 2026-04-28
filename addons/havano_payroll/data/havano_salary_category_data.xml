@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Taxable Income -->
+        <record id="category_taxable_income" model="havano.salary.category">
+            <field name="name">Taxable Income</field>
+            <field name="code">TAXABLE</field>
+            <field name="sequence">10</field>
+            <field name="category_type">taxable_income</field>
+            <field name="affects_taxable_income">True</field>
+            <field name="calculation_order">10</field>
+        </record>
+
+        <!-- Non-Taxable Income -->
+        <record id="category_non_taxable" model="havano.salary.category">
+            <field name="name">Non-Taxable Income</field>
+            <field name="code">NONTAX</field>
+            <field name="sequence">20</field>
+            <field name="category_type">non_taxable_income</field>
+            <field name="affects_taxable_income">False</field>
+            <field name="calculation_order">15</field>
+        </record>
+
+        <!-- Allowable Deduction (e.g., NSSA) -->
+        <record id="category_allowable_deduction" model="havano.salary.category">
+            <field name="name">Allowable Deduction</field>
+            <field name="code">ALLOW_DED</field>
+            <field name="sequence">30</field>
+            <field name="category_type">allowable_deduction</field>
+            <field name="is_allowable_deduction">True</field>
+            <field name="calculation_order">20</field>
+        </record>
+
+        <!-- Non-Allowable Deduction -->
+        <record id="category_non_allowable" model="havano.salary.category">
+            <field name="name">Non-Allowable Deduction</field>
+            <field name="code">NONALLOW</field>
+            <field name="sequence">40</field>
+            <field name="category_type">non_allowable_deduction</field>
+            <field name="is_allowable_deduction">False</field>
+            <field name="calculation_order">90</field>
+        </record>
+
+        <!-- Tax Credit (Medical Aid 50%) -->
+        <record id="category_tax_credit" model="havano.salary.category">
+            <field name="name">Tax Credit</field>
+            <field name="code">TAXCREDIT</field>
+            <field name="sequence">50</field>
+            <field name="category_type">tax_credit</field>
+            <field name="is_tax_credit">True</field>
+            <field name="tax_credit_percentage">50</field>
+            <field name="calculation_order">40</field>
+        </record>
+
+        <!-- NSSA -->
+        <record id="category_nssa" model="havano.salary.category">
+            <field name="name">NSSA</field>
+            <field name="code">NSSA_CAT</field>
+            <field name="sequence">60</field>
+            <field name="category_type">nssa</field>
+            <field name="is_allowable_deduction">True</field>
+            <field name="calculation_order">10</field>
+        </record>
+
+        <!-- PAYE -->
+        <record id="category_paye" model="havano.salary.category">
+            <field name="name">PAYE</field>
+            <field name="code">PAYE_CAT</field>
+            <field name="sequence">70</field>
+            <field name="category_type">paye</field>
+            <field name="calculation_order">50</field>
+        </record>
+
+        <!-- AIDS Levy -->
+        <record id="category_aids" model="havano.salary.category">
+            <field name="name">AIDS Levy</field>
+            <field name="code">AIDS_CAT</field>
+            <field name="sequence">80</field>
+            <field name="category_type">aids_levy</field>
+            <field name="calculation_order">60</field>
+        </record>
+
+        <!-- Medical Aid -->
+        <record id="category_medical_aid" model="havano.salary.category">
+            <field name="name">Medical Aid</field>
+            <field name="code">MED_CAT</field>
+            <field name="sequence">90</field>
+            <field name="category_type">medical_aid</field>
+            <field name="is_tax_credit">True</field>
+            <field name="tax_credit_percentage">50</field>
+            <field name="calculation_order">30</field>
+        </record>
+
+        <!-- ZIMDEF -->
+        <record id="category_zimdef" model="havano.salary.category">
+            <field name="name">ZIMDEF</field>
+            <field name="code">ZIMDEF_CAT</field>
+            <field name="sequence">100</field>
+            <field name="category_type">zimdef</field>
+            <field name="calculation_order">70</field>
+        </record>
+
+        <!-- NEC -->
+        <record id="category_nec" model="havano.salary.category">
+            <field name="name">NEC</field>
+            <field name="code">NEC_CAT</field>
+            <field name="sequence">110</field>
+            <field name="category_type">nec</field>
+            <field name="is_allowable_deduction">True</field>
+            <field name="calculation_order">12</field>
+        </record>
+
+        <!-- Loan -->
+        <record id="category_loan" model="havano.salary.category">
+            <field name="name">Loan</field>
+            <field name="code">LOAN_CAT</field>
+            <field name="sequence">120</field>
+            <field name="category_type">loan</field>
+            <field name="is_allowable_deduction">False</field>
+            <field name="calculation_order">100</field>
+        </record>
+
+        <!-- Funeral Policy -->
+        <record id="category_funeral" model="havano.salary.category">
+            <field name="name">Funeral Policy</field>
+            <field name="code">FUNERAL_CAT</field>
+            <field name="sequence">130</field>
+            <field name="category_type">funeral_policy</field>
+            <field name="is_allowable_deduction">False</field>
+            <field name="calculation_order">95</field>
+        </record>
+
+    </data>
+</odoo>

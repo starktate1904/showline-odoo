@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_hr_employee_form_havano_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.form.havano.payroll</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            
+            <notebook position="inside">
+                
+                <!-- ==================== EARNINGS TAB ==================== -->
+                <page string="Earnings">
+                    
+                    <group>
+                        <field name="secondary_currency_id" string="Secondary Currency"/>
+                    </group>
+                    
+                    <group string="Earnings &amp; Allowances">
+                        <field name="earnings_ids" context="{'default_currency_id': currency_id}">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="component_id" 
+                                       domain="[('component_type', '=', 'earning')]"
+                                       string="Component"
+                                       required="1"/>
+                                <field name="component_category" string="Category" readonly="1"/>
+                                <field name="amount" 
+                                       string="Amount (Primary)" 
+                                       sum="Total (Primary)" 
+                                       widget="monetary" 
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="secondary_amount" 
+                                       string="Amount (Secondary)" 
+                                       sum="Total (Secondary)" 
+                                       widget="monetary" 
+                                       options="{'currency_field': 'secondary_currency_id'}"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="secondary_currency_id" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                    <group>
+                        <group>
+                            <field name="total_earnings" string="Total Earnings (Primary)" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="secondary_total_earnings" string="Total Earnings (Secondary)" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+                    
+                </page>
+                
+                <!-- ==================== DEDUCTIONS TAB ==================== -->
+                <page string="Deductions">
+                    
+                    <div class="oe_button_box">
+                        <button name="action_calculate_all_deductions" 
+                                type="object" 
+                                string="Calculate All" 
+                                class="oe_stat_button" 
+                                icon="fa-calculator"
+                                help="Auto-calculate all deduction amounts"/>
+                    </div>
+                    
+                    <group string="Deductions &amp; Taxes">
+                        <field name="deduction_ids" context="{'default_currency_id': currency_id}">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="component_id" 
+                                    domain="[('component_type', '=', 'deduction')]"
+                                    string="Component"
+                                    required="1"/>
+                                <field name="component_category" string="Category" readonly="1"/>
+                                <field name="amount" 
+                                    string="Amount (Primary)" 
+                                    sum="Total (Primary)" 
+                                    widget="monetary" 
+                                    options="{'currency_field': 'currency_id'}"/>
+                                <field name="secondary_amount" 
+                                    string="Amount (Secondary)" 
+                                    sum="Total (Secondary)" 
+                                    widget="monetary" 
+                                    options="{'currency_field': 'secondary_currency_id'}"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <field name="secondary_currency_id" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                    <group>
+                        <group>
+                            <field name="total_deductions" string="Total Deductions (Primary)" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="secondary_total_deductions" string="Total Deductions (Secondary)" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+                    
+                </page>
+                
+                <!-- ==================== SALARY SUMMARY TAB ==================== -->
+                <page string="Salary Summary">
+                    
+                    <group string="Salary Breakdown">
+                        <group>
+                            <field name="total_earnings" string="Total Earnings (Primary)" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="secondary_total_earnings" string="Total Earnings (Secondary)" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+
+                    <group string="Tax Information">
+                        <group>
+                            <field name="total_allowable_deductions" string="Allowable Deductions"/>
+                            <field name="taxable_income" string="Taxable Income"/>
+                        </group>
+                        <group>
+                            <field name="secondary_allowable_deductions" string="Allowable Deductions (Sec)"/>
+                            <field name="secondary_taxable_income" string="Taxable Income (Sec)"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Total Deductions">
+                        <group>
+                            <field name="total_deductions" string="Total Deductions (Primary)" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="secondary_total_deductions" string="Total Deductions (Secondary)" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Net Salary">
+                        <group>
+                            <field name="net_salary" string="Net Salary (Primary)" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="secondary_net_salary" string="Net Salary (Secondary)" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+                    
+                </page>
+                
+                <!-- ==================== LEAVE & OFF DAYS TAB ==================== -->
+                <page string="Leave &amp; Off Days">
+                    
+                    <group string="Work Information">
+                        <group>
+                            <field name="working_hours_per_week"/>
+                        </group>
+                        <group>
+                            <field name="leave_days" string="Leave Days (Annual)"/>
+                        </group>
+                    </group>
+                    
+                    <div class="oe_button_box mt16">
+                        <button type="action" 
+                                name="%(action_havano_leave_request)d" 
+                                string="Request Leave" 
+                                class="oe_stat_button" 
+                                icon="fa-calendar-plus-o"
+                                context="{'default_employee_id': id}"/>
+                        <button type="action" 
+                                name="%(action_havano_leave_encashment)d" 
+                                string="Encash Leave" 
+                                class="oe_stat_button" 
+                                icon="fa-money"
+                                context="{'default_employee_id': id}"/>
+                    </div>
+                    
+                    <group col="4" class="mt16">
+                        <div style="background: #17a2b8; color: white; padding: 16px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold;">
+                                <field name="leave_days" nolabel="1"/>
+                            </div>
+                            <div>Annual Leave<br/>Days Remaining</div>
+                        </div>
+                        <div style="background: #28a745; color: white; padding: 16px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold;">2.5</div>
+                            <div>Days Accrued<br/>Per Month</div>
+                        </div>
+                        <div style="background: #6c757d; color: white; padding: 16px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold;">
+                                <field name="working_hours_per_week" nolabel="1"/>
+                            </div>
+                            <div>Working Hours<br/>Per Week</div>
+                        </div>
+                        <div style="background: #fd7e14; color: white; padding: 16px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 28px; font-weight: bold;">22</div>
+                            <div>Working Days<br/>Per Month</div>
+                        </div>
+                    </group>
+                    
+                    <group string="Leave Balance" class="mt16">
+                        <field name="leave_allocation_ids">
+                            <list>
+                                <field name="leave_type_id"/>
+                                <field name="entitled_days"/>
+                                <field name="taken_days"/>
+                                <field name="planned_days"/>
+                                <field name="remaining_days"/>
+                                <field name="year"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                    <group string="Recent Leave Requests" class="mt16">
+                        <field name="leave_request_ids">
+                            <list>
+                                <field name="leave_type_id"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="number_of_days"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                    <group string="Recent Encashments" class="mt16">
+                        <field name="encashment_ids">
+                            <list>
+                                <field name="date_requested"/>
+                                <field name="number_of_days"/>
+                                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                </page>
+                
+            </notebook>
+            
+        </field>
+    </record>
+    
+</odoo>

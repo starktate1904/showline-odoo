@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- NSSA Rule - Allowable Deduction, calculated first -->
+        <record id="rule_nssa" model="havano.salary.component.rule">
+            <field name="name">NSSA - Employee Contribution</field>
+            <field name="component_id" ref="component_nssa"/>
+            <field name="sequence">10</field>
+            <field name="rule_type">percentage</field>
+            <field name="percentage">4.5</field>
+            <field name="percentage_base">basic_salary</field>
+            <field name="description">NSSA = Basic Salary × Employee % (capped by settings ceiling)</field>
+        </record>
+
+        <!-- PAYE Rule -->
+        <record id="rule_paye" model="havano.salary.component.rule">
+            <field name="name">PAYE - Tax Table Calculation</field>
+            <field name="component_id" ref="component_paye"/>
+            <field name="sequence">20</field>
+            <field name="rule_type">tax_table</field>
+            <field name="frequency">monthly</field>
+            <field name="description">PAYE = (Taxable Income × Tax Rate%) - Bracket Deduction - Tax Credits</field>
+        </record>
+
+        <!-- AIDS Levy Rule -->
+        <record id="rule_aids_levy" model="havano.salary.component.rule">
+            <field name="name">AIDS Levy - 3% of PAYE</field>
+            <field name="component_id" ref="component_aids_levy"/>
+            <field name="sequence">30</field>
+            <field name="rule_type">percentage</field>
+            <field name="percentage">3.0</field>
+            <field name="percentage_base">paye_amount</field>
+            <field name="description">AIDS Levy = 3% of PAYE amount</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_havano_leave_type_list" model="ir.ui.view">
+        <field name="name">havano.leave.type.list</field>
+        <field name="model">havano.leave.type</field>
+        <field name="arch" type="xml">
+            <list string="Leave Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="leave_category" widget="badge"/>
+                <field name="accrual_days"/>
+                <field name="max_days"/>
+                <field name="paid_leave" widget="boolean_toggle"/>
+                <field name="allow_encashment" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_havano_leave_type_form" model="ir.ui.view">
+        <field name="name">havano.leave.type.form</field>
+        <field name="model">havano.leave.type</field>
+        <field name="arch" type="xml">
+            <form string="Leave Type">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Leave Type Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="leave_category"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="paid_leave"/>
+                            <field name="allow_encashment"/>
+                            <field name="gender_restriction"/>
+                        </group>
+                    </group>
+                    <group string="Accrual Settings">
+                        <group>
+                            <field name="accrual_enabled"/>
+                            <field name="accrual_days"/>
+                            <field name="accrual_frequency"/>
+                        </group>
+                        <group>
+                            <field name="max_days"/>
+                            <field name="allow_carry_over"/>
+                            <field name="max_carry_over_days"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_havano_leave_type" model="ir.actions.act_window">
+        <field name="name">Leave Types</field>
+        <field name="res_model">havano.leave.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <menuitem id="menu_havano_leave_type"
+              name="Leave Types"
+              parent="menu_havano_payroll_config"
+              action="action_havano_leave_type"
+              sequence="25"/>
+    
+</odoo>

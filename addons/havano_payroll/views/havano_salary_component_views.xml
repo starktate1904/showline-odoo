@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Salary Component List -->
+    <record id="view_havano_salary_component_list" model="ir.ui.view">
+        <field name="name">havano.salary.component.list</field>
+        <field name="model">havano.salary.component</field>
+        <field name="arch" type="xml">
+            <list string="Salary Components" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="component_type" widget="badge"
+                       decoration-success="component_type == 'earning'"
+                       decoration-danger="component_type == 'deduction'"/>
+                <field name="category_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Salary Component Form -->
+    <record id="view_havano_salary_component_form" model="ir.ui.view">
+        <field name="name">havano.salary.component.form</field>
+        <field name="model">havano.salary.component</field>
+        <field name="arch" type="xml">
+            <form string="Salary Component">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Component Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="component_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_havano_salary_component" model="ir.actions.act_window">
+        <field name="name">Salary Components</field>
+        <field name="res_model">havano.salary.component</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Menu Items -->
+    <menuitem id="menu_havano_payroll_root"
+              name="Havano Payroll"
+              sequence="50"/>
+    
+    <menuitem id="menu_havano_payroll_config"
+              name="Configuration"
+              parent="menu_havano_payroll_root"
+              sequence="10"/>
+    
+    <menuitem id="menu_havano_salary_category"
+              name="Salary Categories"
+              parent="menu_havano_payroll_config"
+              action="action_havano_salary_category"
+              sequence="5"/>
+    
+    <menuitem id="menu_havano_salary_component"
+              name="Salary Components"
+              parent="menu_havano_payroll_config"
+              action="action_havano_salary_component"
+              sequence="10"/>
+    
+</odoo>

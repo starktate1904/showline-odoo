@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_havano_payroll_settings_form" model="ir.ui.view">
+        <field name="name">havano.payroll.settings.form.view</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Havano Payroll Settings">
+                <header>
+                    <button string="Save" type="object" name="execute" class="btn-primary"/>
+                    <button string="Cancel" type="object" name="cancel" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <h2>Havano Payroll Settings</h2>
+                    
+                    <!-- Multi-Currency -->
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="multi_currency"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="multi_currency" string="Enable Multi-Currency"/>
+                                <div class="text-muted">Display salary amounts in multiple currencies</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Currency Configuration -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>Currency Configuration</h3></div>
+                        <div class="col-12 col-lg-6">
+                            <label for="base_currency_id" string="Base Currency"/>
+                            <field name="base_currency_id" required="1"/>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label for="secondary_currency_id" string="Secondary Currency"/>
+                            <field name="secondary_currency_id"/>
+                        </div>
+                    </div>
+
+                    <!-- NSSA Configuration - Primary Currency -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>NSSA Configuration (Primary Currency)</h3></div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_employee_pct" string="Employee Contribution (%)"/>
+                            <field name="nssa_employee_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_employer_pct" string="Employer Contribution (%)"/>
+                            <field name="nssa_employer_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_ceiling" string="NSSA Ceiling Amount"/>
+                            <field name="nssa_ceiling"/>
+                        </div>
+                    </div>
+
+                    <!-- NSSA Configuration - Secondary Currency -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>NSSA Configuration (Secondary Currency)</h3></div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_employee_pct_secondary" string="Employee Contribution (%)"/>
+                            <field name="nssa_employee_pct_secondary"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_employer_pct_secondary" string="Employer Contribution (%)"/>
+                            <field name="nssa_employer_pct_secondary"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="nssa_ceiling_secondary" string="NSSA Ceiling Amount"/>
+                            <field name="nssa_ceiling_secondary"/>
+                        </div>
+                    </div>
+
+                    <!-- WCIF Configuration -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>WCIF Configuration</h3></div>
+                        <div class="col-12 col-lg-4">
+                            <label for="wcif_pct" string="WCIF Contribution (%)"/>
+                            <field name="wcif_pct"/>
+                        </div>
+                    </div>
+
+                    <!-- Leave Configuration -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>Leave Configuration</h3></div>
+                        <div class="col-12 col-lg-4">
+                            <label for="working_days_per_month" string="Working Days/Month"/>
+                            <field name="working_days_per_month"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="encashment_enabled" string="Enable Leave Encashment"/>
+                            <field name="encashment_enabled"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="max_encashment_days" string="Max Encashment Days/Year"/>
+                            <field name="max_encashment_days"/>
+                        </div>
+                    </div>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_havano_payroll_settings" model="ir.actions.act_window">
+        <field name="name">Havano Payroll Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_havano_payroll_settings_form"/>
+        <field name="context">{'module': 'havano_payroll'}</field>
+    </record>
+    
+    <menuitem id="menu_havano_payroll_settings"
+              name="Settings"
+              parent="menu_havano_payroll_config"
+              action="action_havano_payroll_settings"
+              sequence="100"/>
+    
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- List View -->
+    <record id="view_havano_leave_encashment_list" model="ir.ui.view">
+        <field name="name">havano.leave.encashment.list</field>
+        <field name="model">havano.leave.encashment</field>
+        <field name="arch" type="xml">
+            <list string="Leave Encashments">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date_requested"/>
+                <field name="number_of_days"/>
+                <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge" decoration-success="state=='paid'" decoration-warning="state=='approved'"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Form View -->
+    <record id="view_havano_leave_encashment_form" model="ir.ui.view">
+        <field name="name">havano.leave.encashment.form</field>
+        <field name="model">havano.leave.encashment</field>
+        <field name="arch" type="xml">
+            <form string="Leave Encashment">
+                <header>
+                    <button name="action_request" type="object" string="Request" class="oe_highlight" invisible="state!='draft'"/>
+                    <button name="action_approve" type="object" string="Approve" invisible="state!='requested'"/>
+                    <button name="action_paid" type="object" string="Mark Paid" invisible="state!='approved'"/>
+                    <button name="action_reject" type="object" string="Reject" invisible="state=='paid'"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state!='draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                            <field name="date_requested"/>
+                            <field name="number_of_days"/>
+                        </group>
+                        <group>
+                            <field name="daily_rate" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="secondary_total_amount" widget="monetary" options="{'currency_field': 'secondary_currency_id'}"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Action -->
+    <record id="action_havano_leave_encashment" model="ir.actions.act_window">
+        <field name="name">Leave Encashments</field>
+        <field name="res_model">havano.leave.encashment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    
+    <!-- Menu -->
+    <menuitem id="menu_havano_leave_encashment"
+              name="Leave Encashments"
+              parent="menu_havano_payroll_root"
+              action="action_havano_leave_encashment"
+              sequence="30"/>
+    
+</odoo>

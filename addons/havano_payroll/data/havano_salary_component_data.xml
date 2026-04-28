@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ==================== EARNINGS ==================== -->
+        
+        <!-- Basic Salary → Taxable Income -->
+        <record id="component_basic_salary" model="havano.salary.component">
+            <field name="name">Basic Salary</field>
+            <field name="code">BS</field>
+            <field name="sequence">10</field>
+            <field name="component_type">earning</field>
+            <field name="category_id" ref="category_taxable_income"/>
+        </record>
+
+        <!-- Leave Pay → Non-Taxable Income -->
+        <record id="component_leave_pay" model="havano.salary.component">
+            <field name="name">Leave Pay</field>
+            <field name="code">LEAVE</field>
+            <field name="sequence">100</field>
+            <field name="component_type">earning</field>
+            <field name="category_id" ref="category_non_taxable"/>
+        </record>
+
+        <!-- Leave Encashment → Non-Taxable Income -->
+        <record id="component_leave_encashment" model="havano.salary.component">
+            <field name="name">Leave Encashment</field>
+            <field name="code">LENCASH</field>
+            <field name="sequence">150</field>
+            <field name="component_type">earning</field>
+            <field name="category_id" ref="category_non_taxable"/>
+        </record>
+
+        <!-- Tax Credit → Tax Credit Category -->
+        <record id="component_tax_credit" model="havano.salary.component">
+            <field name="name">Tax Credit</field>
+            <field name="code">TC</field>
+            <field name="sequence">160</field>
+            <field name="component_type">earning</field>
+            <field name="category_id" ref="category_tax_credit"/>
+        </record>
+
+        <!-- ==================== DEDUCTIONS ==================== -->
+        
+        <!-- PAYE → PAYE Category -->
+        <record id="component_paye" model="havano.salary.component">
+            <field name="name">PAYE (Income Tax)</field>
+            <field name="code">PAYE</field>
+            <field name="sequence">200</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_paye"/>
+        </record>
+
+        <!-- AIDS Levy → AIDS Category -->
+        <record id="component_aids_levy" model="havano.salary.component">
+            <field name="name">AIDS Levy</field>
+            <field name="code">AIDS</field>
+            <field name="sequence">210</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_aids"/>
+        </record>
+
+        <!-- NSSA → Allowable Deduction -->
+        <record id="component_nssa" model="havano.salary.component">
+            <field name="name">NSSA Contribution</field>
+            <field name="code">NSSA</field>
+            <field name="sequence">220</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_allowable_deduction"/>
+        </record>
+
+        <!-- Unpaid Leave → Non-Allowable Deduction -->
+        <record id="component_unpaid_leave" model="havano.salary.component">
+            <field name="name">Unpaid Leave Deduction</field>
+            <field name="code">UNPAID</field>
+            <field name="sequence">350</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_non_allowable"/>
+        </record>
+
+        <!-- ZIMDEF → ZIMDEF Category -->
+        <record id="component_zimdef" model="havano.salary.component">
+            <field name="name">ZIMDEF Contribution</field>
+            <field name="code">ZIMDEF</field>
+            <field name="sequence">360</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_zimdef"/>
+        </record>
+
+    </data>
+</odoo>

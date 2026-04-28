@@ -1,0 +1,414 @@
+/* Card Styles */
+.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%) !important;
+}
+
+.bg-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.p-3 {
+    padding: 1rem !important;
+}
+
+.rounded {
+    border-radius: 8px !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.mt16 {
+    margin-top: 16px !important;
+}
+
+.mb0 {
+    margin-bottom: 0 !important;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.ml-1 {
+    margin-left: 0.25rem !important;
+}
+
+.ml-2 {
+    margin-left: 0.5rem !important;
+}
+
+/* Badge Styles */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 4px;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-light {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Table Styles - Full Width Beautiful Tables */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.table {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    background-color: white;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.table thead tr {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.table thead th {
+    padding: 14px 16px;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafd;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.table tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    color: #2c3e50;
+    border-bottom: 1px solid #eef2f7;
+}
+
+/* Table variations for different sections */
+.table-leave-balance thead tr {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.table-leave-requests thead tr {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.table-off-days thead tr {
+    background: linear-gradient(135deg, #fd7e14 0%, #e74c3c 100%);
+}
+
+/* Table text alignment */
+.table .text-center {
+    text-align: center !important;
+}
+
+.table .text-right {
+    text-align: right !important;
+}
+
+.table .font-bold {
+    font-weight: 700;
+}
+
+/* Status badges in tables */
+.table .status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.table .status-approved {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.table .status-pending {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #333;
+}
+
+.table .status-rejected {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+}
+
+.table .status-planned {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: white;
+}
+
+/* Table bordered version */
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+    padding: 8px 12px;
+}
+
+.table-bordered thead th {
+    border-bottom-width: 2px;
+}
+
+/* Table striped */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9fbfd;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #eef3f9;
+}
+
+/* Table compact */
+.table-sm th,
+.table-sm td {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+/* Table with icons */
+.table td i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Progress Bar */
+.progress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    transition: width 0.6s ease;
+}
+
+.progress-bar.bg-success {
+    background: #28a745 !important;
+}
+
+.progress-bar.bg-warning {
+    background: #ffc107 !important;
+}
+
+.progress-bar.bg-info {
+    background: #17a2b8 !important;
+}
+
+/* Flex Utilities */
+.d-flex {
+    display: flex !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+/* Row/Col */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Icons with colors */
+.fa-umbrella-beach { color: #17a2b8; }
+.fa-heart { color: #dc3545; }
+.fa-baby { color: #e83e8c; }
+.fa-users { color: #007bff; }
+.fa-graduation-cap { color: #ffc107; }
+.fa-hourglass-half { color: #6c757d; }
+.fa-calendar { color: #667eea; }
+.fa-clock-o { color: #fd7e14; }
+.fa-check-circle { color: #28a745; }
+.fa-times-circle { color: #dc3545; }
+.fa-clock { color: #ffc107; }
+
+/* Odoo Stat Button */
+.oe_stat_button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.o_stat_info {
+    text-align: center;
+}
+
+.o_stat_value {
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+}
+
+.o_stat_text {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Table container for full width */
+.o_group .table-responsive {
+    margin: -16px -16px 0 -16px;
+    width: calc(100% + 32px);
+}
+
+.o_group .table {
+    margin: 0 !important;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.o_group .table thead th:first-child {
+    padding-left: 24px;
+}
+
+.o_group .table tbody td:first-child {
+    padding-left: 24px;
+}
+
+/* Group header styling */
+.o_group .o_group_header {
+    margin-bottom: 16px;
+}
+
+.o_group .o_group_header span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Animation for table rows */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table tbody tr {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+    .table {
+        font-size: 12px;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 10px 12px;
+    }
+    
+    .o_group .table thead th:first-child,
+    .o_group .table tbody td:first-child {
+        padding-left: 16px;
+    }
+}
