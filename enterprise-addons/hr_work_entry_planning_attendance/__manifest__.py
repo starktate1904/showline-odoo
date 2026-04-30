@@ -1,0 +1,15 @@
+# Part of Erp. See LICENSE file for full copyright and licensing details.
+
+{
+    'name': 'Attendances - Planning',
+    'category': 'Human Resources/Employees',
+    'sequence': 95,
+    'summary': 'Create work entries from attendances based on employee\'s planning',
+    'depends': [
+        'hr_work_entry_planning',
+        'hr_work_entry_attendance',
+    ],
+    'author': 'Erp S.A.',
+    'license': 'OEEL-1',
+    'auto_install': True,
+}

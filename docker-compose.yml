@@ -1,6 +1,16 @@
 services:
   db:
     image: postgres:16-alpine
+    shm_size: "1gb"
+    command: >
+      postgres
+      -c shared_buffers=256MB
+      -c effective_cache_size=768MB
+      -c maintenance_work_mem=128MB
+      -c work_mem=8MB
+      -c wal_buffers=16MB
+      -c checkpoint_completion_target=0.9
+      -c random_page_cost=1.1
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=odoo
@@ -22,15 +32,21 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8069:8069"
+      - "0.0.0.0:8069:8069"
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo_Admin@2026
+      - PORT=8069
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons
+      - ./enterprise-addons:/mnt/enterprise-addons
       - ./config:/etc/odoo
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     restart: unless-stopped
     networks:
       - odoo-network

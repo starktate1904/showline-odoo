@@ -87,5 +87,23 @@
             <field name="category_id" ref="category_zimdef"/>
         </record>
 
+        <!-- NEC → Allowable Deduction -->
+        <record id="component_nec" model="havano.salary.component">
+            <field name="name">NEC Contribution</field>
+            <field name="code">NEC</field>
+            <field name="sequence">225</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_allowable_deduction"/>
+        </record>
+
+        <!-- Medical Aid → Medical Aid Category (Tax Credit) -->
+        <record id="component_medical_aid" model="havano.salary.component">
+            <field name="name">Medical Aid</field>
+            <field name="code">MED</field>
+            <field name="sequence">230</field>
+            <field name="component_type">deduction</field>
+            <field name="category_id" ref="category_medical_aid"/>
+        </record>
+
     </data>
 </odoo>

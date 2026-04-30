@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ddc" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.disallow.duplicate.contacts</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Disallow Duplicate Contacts" name="ddc_app">
+                    <block title="License">
+                        <setting string="License Key">
+                            <field name="ddc_license_key" placeholder="XXXX-XXXX-XXXX-XXXX"/>
+                            <field name="ddc_license_valid" readonly="1"/>
+                            <button name="action_activate_disallow_duplicate_contacts_license" type="object" string="Activate License" class="btn btn-primary"/>
+                            <div class="alert alert-warning mt16" invisible="ddc_license_valid">
+                                <strong>Unlicensed:</strong> Duplicate blocking is disabled until a valid license is set.
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Detection Rules">
+                        <setting string="Exact Name only"><field name="ddc_check_name_exact"/></setting>
+                        <setting string="Email only"><field name="ddc_check_email_only"/></setting>
+                        <setting string="Name + Email"><field name="ddc_check_email_name"/></setting>
+                        <setting string="Phone only"><field name="ddc_check_phone_only"/></setting>
+                        <setting string="Name + Phone"><field name="ddc_check_phone_name"/></setting>
+                        <setting string="Name + Street + City"><field name="ddc_check_name_address"/></setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_ddc_open_duplicate_partner" model="ir.actions.act_window">
+        <field name="name">Duplicate Contact</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('id', 'in', active_ids)]</field>
+    </record>
+</odoo>

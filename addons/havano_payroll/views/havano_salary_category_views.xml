@@ -71,7 +71,6 @@
     </record>
     
     <!-- Menu -->
-    <menuitem id="menu_havano_salary_category"
               name="Salary Categories"
               parent="menu_havano_payroll_config"
               action="action_havano_salary_category"

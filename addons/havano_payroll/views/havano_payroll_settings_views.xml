@@ -14,8 +14,11 @@
                 <sheet>
                     <h2>Havano Payroll Settings</h2>
                     
-                    <!-- Multi-Currency -->
-                    <div class="row mt16 o_settings_container">
+                    <!-- ==================== CURRENCY ==================== -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3>Currency Configuration</h3></div>
+                    </div>
+                    <div class="row mt8 o_settings_container">
                         <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane">
                                 <field name="multi_currency"/>
@@ -26,10 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Currency Configuration -->
-                    <div class="row mt16">
-                        <div class="col-12"><h3>Currency Configuration</h3></div>
+                    <div class="row mt8">
                         <div class="col-12 col-lg-6">
                             <label for="base_currency_id" string="Base Currency"/>
                             <field name="base_currency_id" required="1"/>
@@ -40,9 +40,12 @@
                         </div>
                     </div>
 
-                    <!-- NSSA Configuration - Primary Currency -->
+                    <!-- ==================== NSSA ==================== -->
                     <div class="row mt16">
-                        <div class="col-12"><h3>NSSA Configuration (Primary Currency)</h3></div>
+                        <div class="col-12"><h3 style="color: #2c3e50;">NSSA (National Social Security Authority)</h3></div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Primary Currency</h4></div>
                         <div class="col-12 col-lg-4">
                             <label for="nssa_employee_pct" string="Employee Contribution (%)"/>
                             <field name="nssa_employee_pct"/>
@@ -52,14 +55,12 @@
                             <field name="nssa_employer_pct"/>
                         </div>
                         <div class="col-12 col-lg-4">
-                            <label for="nssa_ceiling" string="NSSA Ceiling Amount"/>
+                            <label for="nssa_ceiling" string="Ceiling Amount"/>
                             <field name="nssa_ceiling"/>
                         </div>
                     </div>
-
-                    <!-- NSSA Configuration - Secondary Currency -->
-                    <div class="row mt16">
-                        <div class="col-12"><h3>NSSA Configuration (Secondary Currency)</h3></div>
+                    <div class="row mt8" style="background: #f0f4f8; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Secondary Currency</h4></div>
                         <div class="col-12 col-lg-4">
                             <label for="nssa_employee_pct_secondary" string="Employee Contribution (%)"/>
                             <field name="nssa_employee_pct_secondary"/>
@@ -69,23 +70,133 @@
                             <field name="nssa_employer_pct_secondary"/>
                         </div>
                         <div class="col-12 col-lg-4">
-                            <label for="nssa_ceiling_secondary" string="NSSA Ceiling Amount"/>
+                            <label for="nssa_ceiling_secondary" string="Ceiling Amount"/>
                             <field name="nssa_ceiling_secondary"/>
                         </div>
                     </div>
 
-                    <!-- WCIF Configuration -->
+                    <!-- ==================== NEC ==================== -->
                     <div class="row mt16">
-                        <div class="col-12"><h3>WCIF Configuration</h3></div>
-                        <div class="col-12 col-lg-4">
-                            <label for="wcif_pct" string="WCIF Contribution (%)"/>
-                            <field name="wcif_pct"/>
+                        <div class="col-12"><h3 style="color: #2c3e50;">NEC (National Employment Council)</h3></div>
+                    </div>
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-3">
+                            <label for="nec_enabled" string="Enable NEC"/>
+                            <field name="nec_enabled"/>
+                        </div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Primary Currency</h4></div>
+                        <div class="col-12 col-lg-6">
+                            <label for="nec_employee_pct" string="Employee Contribution (%)"/>
+                            <field name="nec_employee_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label for="nec_ceiling" string="Ceiling (0 = No Cap)"/>
+                            <field name="nec_ceiling"/>
+                            <div class="text-muted">Leave at 0 for no ceiling</div>
+                        </div>
+                    </div>
+                    <div class="row mt8" style="background: #f0f4f8; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Secondary Currency</h4></div>
+                        <div class="col-12 col-lg-6">
+                            <label for="nec_employee_pct_secondary" string="Employee Contribution (%)"/>
+                            <field name="nec_employee_pct_secondary"/>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label for="nec_ceiling_secondary" string="Ceiling (0 = No Cap)"/>
+                            <field name="nec_ceiling_secondary"/>
+                            <div class="text-muted">Leave at 0 for no ceiling</div>
                         </div>
                     </div>
 
-                    <!-- Leave Configuration -->
+                    <!-- ==================== ZIMDEF ==================== -->
                     <div class="row mt16">
-                        <div class="col-12"><h3>Leave Configuration</h3></div>
+                        <div class="col-12"><h3 style="color: #2c3e50;">ZIMDEF (Zimbabwe Manpower Development Fund)</h3></div>
+                    </div>
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-3">
+                            <label for="zimdef_enabled" string="Enable ZIMDEF"/>
+                            <field name="zimdef_enabled"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="zimdef_deduct_from_employee" string="Deduct from Employee"/>
+                            <field name="zimdef_deduct_from_employee"/>
+                            <div class="text-muted">If unchecked, employer pays</div>
+                        </div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Primary Currency</h4></div>
+                        <div class="col-12 col-lg-6">
+                            <label for="zimdef_employer_pct" string="Employer Contribution (%)"/>
+                            <field name="zimdef_employer_pct"/>
+                        </div>
+                    </div>
+                    <div class="row mt8" style="background: #f0f4f8; padding: 12px; border-radius: 8px;">
+                        <div class="col-12"><h4>Secondary Currency</h4></div>
+                        <div class="col-12 col-lg-6">
+                            <label for="zimdef_employer_pct_secondary" string="Employer Contribution (%)"/>
+                            <field name="zimdef_employer_pct_secondary"/>
+                        </div>
+                    </div>
+
+                    <!-- ==================== WCIF ==================== -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3 style="color: #2c3e50;">WCIF (Workers Compensation Insurance Fund)</h3></div>
+                    </div>
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-3">
+                            <label for="wcif_enabled" string="Enable WCIF"/>
+                            <field name="wcif_enabled"/>
+                        </div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12 col-lg-6">
+                            <label for="wcif_pct" string="WCIF Contribution % (Primary)"/>
+                            <field name="wcif_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label for="wcif_pct_secondary" string="WCIF Contribution % (Secondary)"/>
+                            <field name="wcif_pct_secondary"/>
+                        </div>
+                    </div>
+
+                    <!-- ==================== MEDICAL AID TAX CREDIT ==================== -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3 style="color: #2c3e50;">Medical Aid Tax Credit</h3></div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12 col-lg-6">
+                            <label for="medical_aid_tax_credit_pct" string="Medical Aid Tax Credit (%)"/>
+                            <field name="medical_aid_tax_credit_pct"/>
+                            <div class="text-muted">Percentage of Medical Aid that reduces PAYE (default 50%)</div>
+                        </div>
+                    </div>
+
+                    <!-- ==================== FIXED TAX CREDITS ==================== -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3 style="color: #2c3e50;">Fixed Tax Credits</h3></div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+                        <div class="col-12 col-lg-4">
+                            <label for="tax_credit_blind" string="Blind Person"/>
+                            <field name="tax_credit_blind"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="tax_credit_elderly" string="Elderly (65+)"/>
+                            <field name="tax_credit_elderly"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="tax_credit_disabled" string="Disabled Person"/>
+                            <field name="tax_credit_disabled"/>
+                        </div>
+                    </div>
+
+                    <!-- ==================== LEAVE ==================== -->
+                    <div class="row mt16">
+                        <div class="col-12"><h3 style="color: #2c3e50;">Leave Configuration</h3></div>
+                    </div>
+                    <div class="row mt8" style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
                         <div class="col-12 col-lg-4">
                             <label for="working_days_per_month" string="Working Days/Month"/>
                             <field name="working_days_per_month"/>

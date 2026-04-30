@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <function model="ir.config_parameter" name="set_param" eval="('disallow_duplicate_contacts.license_hash', '455ab86e06b01054')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('disallow_duplicate_contacts.license_activated', 'False')"/>
+    <function model="ir.config_parameter" name="set_param" eval="('disallow_duplicate_contacts.license_valid', 'False')"/>
+
+    <record id="ir_cron_ddc_validate_license" model="ir.cron">
+        <field name="name">Disallow Duplicate Contacts License Validation</field>
+        <field name="model_id" ref="base.model_ir_config_parameter"/>
+        <field name="state">code</field>
+        <field name="code">model.env['no.duplicate.license.manager']._periodic_validate_license()</field>
+        <field name="interval_number">12</field>
+        <field name="interval_type">hours</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

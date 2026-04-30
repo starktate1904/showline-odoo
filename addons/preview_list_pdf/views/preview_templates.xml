@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_preview_list_pdf" model="ir.actions.report">
+        <field name="name">Preview List PDF</field>
+        <field name="model">ir.model</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">preview_list_pdf.report_preview_list_pdf</field>
+        <field name="report_file">preview_list_pdf.report_preview_list_pdf</field>
+        <field name="print_report_name">'List Preview'</field>
+    </record>
+
+    <template id="report_preview_list_pdf">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 t-esc="model_name"/>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Display Name</th>
+                                <th>Created On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="doc">
+                                <td t-esc="doc._fields.get('name') and doc.name or ''"/>
+                                <td t-esc="doc.display_name"/>
+                                <td t-esc="doc.create_date"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -27,6 +27,7 @@
     'data/havano_salary_component_rule_data.xml',
     'data/havano_leave_type_data.xml',
     'data/havano_zimra_tax_table_data.xml',
+    'views/havano_salary_category_views.xml', 
     'views/havano_salary_component_views.xml',
     'views/havano_salary_component_rule_views.xml',
     'views/havano_leave_type_views.xml',
@@ -34,7 +35,7 @@
     'views/havano_leave_encashment_views.xml',
     'views/havano_payroll_settings_views.xml',
     'views/havano_zimra_tax_table_views.xml',
-    'views/havano_salary_category_views.xml', 
+    
     'views/havano_hr_employee_views.xml',
     'views/havano_payslip_views.xml',
 ],

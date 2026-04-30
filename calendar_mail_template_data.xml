@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="calendar_template_meeting_reminder" model="mail.template">
+            <field name="name">Calendar: Event Reminder</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="subject">Reminder: Event</field>
+            <field name="body_html" type="html">
+                <div style="margin:0;padding:0;font-size:13px;color:#374151;">
+                    <p>This is a reminder for your event.</p>
+                    <p style="margin:32px 0 0;">Thank you!</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="calendar_template_meeting_invitation" model="mail.template">
+            <field name="name">Calendar: Meeting Invitation</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="subject">Invitation: Meeting</field>
+            <field name="body_html" type="html">
+                <div style="font-size:13px;color:#374151;">
+                    <h1>Meeting Invitation</h1>
+                    <p>You have been invited to a meeting.</p>
+                    <p style="margin:32px 0 0;">Thank you!</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="calendar_template_meeting_update" model="mail.template">
+            <field name="name">Calendar: Meeting Update</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="subject">Updated: Meeting</field>
+            <field name="body_html" type="html">
+                <div style="font-size:13px;color:#374151;">
+                    <h1>Meeting Updated</h1>
+                    <p>The meeting details have been updated.</p>
+                    <p style="margin:32px 0 0;">Thank you!</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="calendar_template_meeting_cancellation" model="mail.template">
+            <field name="name">Calendar: Meeting Cancellation</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="subject">Cancelled: Meeting</field>
+            <field name="body_html" type="html">
+                <div style="font-size:13px;color:#374151;">
+                    <h1>Meeting Cancelled</h1>
+                    <p>A meeting you were invited to has been cancelled.</p>
+                    <p style="margin:32px 0 0;">Thank you!</p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

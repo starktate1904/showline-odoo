@@ -1,0 +1,615 @@
+{
+  "info": {
+    "_postman_id": "9f8d9e61-5dd8-4c6a-9b4f-1a2c3e4f5b6a",
+    "name": "Havano Odoo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for havano_odoo_api. Use Login first to establish session cookie. All business endpoints are configured as POST JSON-RPC for best Postman compatibility."
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/auth/login",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"db\": \"{{db}}\",\n  \"login\": \"{{login}}\",\n  \"password\": \"{{password}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/auth/logout",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/products",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100,\n    \"offset\": 0,\n    \"order\": \"id desc\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Product",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/products/{{product_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Or Update Product",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/products",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"default_code\": \"API-SKU-001\",\n    \"name\": \"API Product\",\n    \"list_price\": 10.0\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Product (PUT)",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/v1/products/{{product_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"description\": \"Updated from Postman\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Product (Archive)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/v1/products/{{product_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Search Products",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/products/search",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"query\": \"a\",\n    \"limit\": 20\n  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/customers",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100,\n    \"offset\": 0\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Customer",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/customers/{{customer_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Or Update Customer",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/customers",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"name\": \"API Customer\",\n    \"email\": \"api.customer@example.com\",\n    \"phone\": \"+263770000000\",\n    \"city\": \"Harare\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Search Customers",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/customers/search",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"query\": \"api\",\n    \"limit\": 20\n  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sales Orders",
+      "item": [
+        {
+          "name": "List Sales Orders",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/sales-orders",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100,\n    \"offset\": 0\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Sales Order",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/sales-orders/{{order_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Sales Order",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/sales-orders",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"partner_id\": \"{{customer_id}}\",\n    \"lines\": [\n      {\n        \"product_id\": \"{{product_id}}\",\n        \"quantity\": 1,\n        \"price_unit\": 10.0\n      }\n    ]\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Confirm Sales Order",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/sales-orders/{{order_id}}/confirm",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Sales Order",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/sales-orders/{{order_id}}/cancel",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "List Invoices",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/invoices",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100,\n    \"offset\": 0\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/invoices",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"partner_id\": \"{{customer_id}}\",\n    \"lines\": [\n      {\n        \"product_id\": \"{{product_id}}\",\n        \"quantity\": 1,\n        \"price_unit\": 10.0\n      }\n    ]\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Post Invoice",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/invoices/{{invoice_id}}/post",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Credit Notes",
+      "item": [
+        {
+          "name": "List Credit Notes",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/v1/credit-notes",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Credit Note",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/credit-notes",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"invoice_id\": \"{{invoice_id}}\",\n    \"reason\": \"Customer return\"\n  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Get Overdue Payments",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/payments/overdue",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Register Payment",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/payments",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"invoice_id\": \"{{invoice_id}}\",\n    \"amount\": 1.0\n  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quotations",
+      "item": [
+        {
+          "name": "Create Quotation",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/quotations",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"partner_id\": \"{{customer_id}}\",\n    \"lines\": [\n      {\n        \"product_id\": \"{{product_id}}\",\n        \"quantity\": 1,\n        \"price_unit\": 10.0\n      }\n    ]\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Quotation",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/quotations/{{quotation_id}}/send",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "Stock Levels",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/stock/levels",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 100,\n    \"offset\": 0\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "Low Stock",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/stock/low",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"threshold\": 10\n  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/dashboard",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {}\n}"
+            }
+          }
+        },
+        {
+          "name": "Top Products",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/v1/dashboard/top-products",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"params\": {\n    \"limit\": 10\n  }\n}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8069"
+    },
+    {
+      "key": "db",
+      "value": "showline_odoo"
+    },
+    {
+      "key": "login",
+      "value": "odooAdmin1@showline.co.zw"
+    },
+    {
+      "key": "password",
+      "value": "Farai@#$1234"
+    },
+    {
+      "key": "product_id",
+      "value": "1"
+    },
+    {
+      "key": "customer_id",
+      "value": "1"
+    },
+    {
+      "key": "order_id",
+      "value": "1"
+    },
+    {
+      "key": "invoice_id",
+      "value": "1"
+    },
+    {
+      "key": "quotation_id",
+      "value": "1"
+    }
+  ]
+}

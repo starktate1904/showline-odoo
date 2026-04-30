@@ -83,16 +83,11 @@ class HavanoSalaryComponentRule(models.Model):
             return 0.0
 
         tax = max((taxable_income * tax_table.rate / 100.0) - tax_table.deduction, 0)
+        
+        # Use the pre-computed total_tax_credits from the employee model
+        total_credits = employee.total_tax_credits if is_primary else employee.secondary_total_tax_credits
 
-        # Get tax credits from components in tax_credit category
-        tax_credits = 0.0
-        for earning in employee.earnings_ids:
-            if earning.component_id.category_id.is_tax_credit:
-                credit_pct = earning.component_id.category_id.tax_credit_percentage
-                credit = earning.amount if is_primary else earning.secondary_amount
-                tax_credits += credit * credit_pct / 100.0
-
-        return max(tax - tax_credits, 0)
+        return max(tax - total_credits, 0)
 
     def _calc_percentage(self, employee, currency):
         """Calculate percentage-based amount"""
