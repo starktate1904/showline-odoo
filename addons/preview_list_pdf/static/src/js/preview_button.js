@@ -16,7 +16,7 @@ patch(ListController.prototype, {
             this.previewListPdfLicensed = await this.orm.call(
                 "preview.list.license.manager",
                 "is_license_valid",
-                []
+                [[]]
             );
         });
     },
