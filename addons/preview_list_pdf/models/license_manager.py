@@ -36,6 +36,10 @@ class PreviewListLicenseManager(models.AbstractModel):
     def _is_license_valid(self):
         return self._validate_license()
 
+    def is_license_valid(self):
+        """Public RPC-safe wrapper for web client checks."""
+        return self._is_license_valid()
+
     def _periodic_validate_license(self):
         icp = self.env["ir.config_parameter"].sudo()
         icp.set_param("preview_list_pdf.license_valid", "True" if self._is_license_valid() else "False")
