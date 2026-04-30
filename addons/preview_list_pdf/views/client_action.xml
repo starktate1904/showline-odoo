@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_preview_list_pdf_page" model="ir.actions.client">
+        <field name="name">Preview List PDF</field>
+        <field name="tag">preview_list_pdf_page</field>
+    </record>
+</odoo>

@@ -17,12 +17,15 @@ Includes app-specific license activation and periodic validation.
     "data": [
         "security/ir.model.access.csv",
         "data/license_data.xml",
+        "views/client_action.xml",
         "views/preview_templates.xml",
         "views/license_views.xml",
     ],
     "assets": {
         "web.assets_backend": [
             "preview_list_pdf/static/src/js/preview_button.js",
+            "preview_list_pdf/static/src/js/preview_page.js",
+            "preview_list_pdf/static/src/xml/preview_page.xml",
             "preview_list_pdf/static/src/scss/preview_style.scss",
         ],
     },
