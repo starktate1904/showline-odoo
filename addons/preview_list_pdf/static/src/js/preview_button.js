@@ -3,41 +3,53 @@
 import { ListController } from "@web/views/list/list_controller";
 import { patch } from "@web/core/utils/patch";
 import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
+import { onWillStart } from "@odoo/owl";
 
 patch(ListController.prototype, {
     setup() {
         super.setup(...arguments);
         this.orm = useService("orm");
         this.actionService = useService("action");
-        this.dialog = useService("dialog");
+        this.previewListPdfLicensed = false;
+        onWillStart(async () => {
+            this.previewListPdfLicensed = await this.orm.call(
+                "preview.list.license.manager",
+                "_is_license_valid",
+                []
+            );
+        });
     },
 
-    async renderButtons() {
-        await super.renderButtons?.(...arguments);
-        if (!this.el || !this.model?.root?.resModel || this.el.querySelector(".o_preview_pdf_btn")) {
-            return;
+    getStaticActionMenuItems() {
+        const items = super.getStaticActionMenuItems(...arguments);
+        if (!this.previewListPdfLicensed || !this.model?.root?.resModel) {
+            return items;
         }
-        const isValid = await this.orm.call("preview.list.license.manager", "_is_license_valid", []);
-        if (!isValid) {
-            return;
-        }
-        const button = document.createElement("button");
-        button.className = "btn btn-secondary o_preview_pdf_btn";
-        button.type = "button";
-        button.textContent = "Preview PDF";
-        button.addEventListener("click", () => {
-            const model = this.model.root.resModel;
-            const domain = encodeURIComponent(JSON.stringify(this.model.root.domain || []));
-            const url = `/preview/pdf/${model}?domain=${domain}`;
-            this.actionService.doAction({
-                type: "ir.actions.act_url",
-                url,
-                target: "new",
-            });
+        const columns = (this.props?.archInfo?.columns || []).filter((col) => col.type === "field" && col.name);
+        const fieldNames = columns.map((col) => col.name);
+        const labels = columns.map((col) => col.string || col.name);
+        const model = this.model.root.resModel;
+        const domain = this.model.root.domain || [];
+        const menuItems = items?.other || [];
+        menuItems.push({
+            key: "preview_list_pdf",
+            description: _t("Preview List PDF"),
+            icon: "fa fa-print",
+            callback: () => {
+                const url =
+                    `/preview/pdf/${encodeURIComponent(model)}` +
+                    `?domain=${encodeURIComponent(JSON.stringify(domain))}` +
+                    `&fields=${encodeURIComponent(JSON.stringify(fieldNames))}` +
+                    `&labels=${encodeURIComponent(JSON.stringify(labels))}`;
+                this.actionService.doAction({
+                    type: "ir.actions.act_url",
+                    url,
+                    target: "new",
+                });
+            },
         });
-        const cpButtons = this.el.querySelector(".o_cp_buttons");
-        if (cpButtons) {
-            cpButtons.appendChild(button);
-        }
+        items.other = menuItems;
+        return items;
     },
 });
