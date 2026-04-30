@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_css" model="ir.ui.view">
+        <field name="name">res.partner.form.customer.supplier.separation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="is_customer"/>
+                <field name="is_supplier"/>
+                <field name="contact_type" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_css" model="ir.ui.view">
+        <field name="name">res.partner.tree.customer.supplier.separation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='complete_name']" position="after">
+                <field name="contact_type"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_css" model="ir.ui.view">
+        <field name="name">res.partner.search.customer.supplier.separation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="only_customers_css" string="Only Customers" domain="[('is_customer','=',True)]"/>
+                <filter name="only_suppliers_css" string="Only Suppliers" domain="[('is_supplier','=',True)]"/>
+                <filter name="both_css" string="Both" domain="[('is_customer','=',True),('is_supplier','=',True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_preview_list_pdf" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.preview.list.pdf</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Preview List PDF" name="preview_list_pdf_app">
+                    <block title="License">
+                        <setting string="Preview List PDF License">
+                            <field name="preview_list_pdf_license_key" placeholder="XXXX-XXXX-XXXX-XXXX"/>
+                            <field name="preview_list_pdf_license_valid" readonly="1"/>
+                            <button name="action_activate_preview_list_pdf_license" type="object" string="Activate License" class="btn btn-primary"/>
+                            <div class="alert alert-warning mt16" invisible="preview_list_pdf_license_valid">
+                                <strong>Unlicensed:</strong> Preview List PDF is running in unlicensed mode.
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<odoo>
+    <t t-name="spreadsheet_edition.ErpBarChartConfigPanel"
+        t-inherit="spreadsheet_edition.CommonErpChartConfigPanel"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//Section[1]" position="before">
+            <Section class="'pt-0'">
+                <Checkbox
+                    name="'stackedBar'"
+                    label="chartTerms.StackedBarChart"
+                    value="props.definition.stacked"
+                    onChange.bind="onUpdateStacked"
+                />
+            </Section>
+        </xpath>
+    </t>
+</odoo>

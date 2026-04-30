@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# Part of Erp. See LICENSE file for full copyright and licensing details.
+
+{
+    'name': 'ErpBot',
+    'version': '1.2',
+    'category': 'Productivity/Discuss',
+    'summary': 'Add ErpBot in discussions',
+    'website': 'https://dev.erpsys.top/app/discuss',
+    'depends': ['mail'],
+    'auto_install': True,
+    'installable': True,
+    'data': [
+        'views/res_users_views.xml',
+        'data/mailbot_data.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'mail_bot/static/src/scss/odoobot_style.scss',
+        ],
+    },
+    'author': 'Erp S.A.',
+    'license': 'LGPL-3',
+}

@@ -1,0 +1,22 @@
+# Part of Erp. See LICENSE file for full copyright and licensing details.
+{
+    'name': 'China - Accounting Reports',
+    'version': '1.0',
+    'category': 'Accounting/Localizations/Reporting',
+    'description': """
+Accounting reports for China
+============================
+    """,
+    'depends': ['l10n_cn', 'account_reports'],
+    'data': [
+        'data/profit_and_loss_asbe.xml',
+        'data/profit_and_loss_assbe.xml',
+        'data/balance_sheet_asbe.xml',
+        'data/balance_sheet_assbe.xml',
+    ],
+    'installable': True,
+    'auto_install': ['l10n_cn', 'account_reports'],
+    'website': 'https://dev.erpsys.top/app/accounting',
+    'author': 'Erp S.A.',
+    'license': 'OEEL-1',
+}

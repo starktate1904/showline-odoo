@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Using Odoo's built-in hr.leave.type - no custom leave types needed -->
+    <data noupdate="1"/>
+</odoo>
