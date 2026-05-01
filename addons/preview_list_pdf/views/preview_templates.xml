@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="paperformat_portrait" model="report.paperformat">
+        <field name="name">Preview Portrait A4</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
     <record id="paperformat_landscape" model="report.paperformat">
         <field name="name">Preview Landscape A4</field>
         <field name="format">A4</field>
         <field name="orientation">Landscape</field>
-        <field name="margin_top">10</field>
-        <field name="margin_bottom">10</field>
-        <field name="margin_left">10</field>
-        <field name="margin_right">10</field>
+        <field name="margin_top">6</field>
+        <field name="margin_bottom">6</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">5</field>
-        <field name="dpi">90</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
     </record>
 
     <record id="action_report_preview_list_pdf" model="ir.actions.report">
@@ -25,46 +38,73 @@
 
     <template id="report_preview_list_pdf">
         <t t-call="web.html_container">
-            <t t-call="web.external_layout">
-                <div class="page">
-                    <div class="mb-3">
-                        <h3 t-esc="data.get('model_name', 'List Preview')"/>
-                        <p class="text-muted small">
-                            <strong>Company:</strong>
-                            <t t-esc="data.get('company_name', '')"/>
-                            <t t-if="data.get('total_records', 0) > 0">
-                                | <strong>Showing:</strong>
-                                <t t-esc="data.get('showing_from')"/> - <t t-esc="data.get('showing_to')"/>
-                                of <t t-esc="data.get('total_records')"/>
-                                | <strong>Page:</strong>
-                                <t t-esc="data.get('page_number')"/> / <t t-esc="data.get('total_pages')"/>
-                            </t>
-                        </p>
-                    </div>
+            <div class="page" style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 12px 10px;">
+                
+                <!-- Header -->
+                <div style="margin-bottom: 16px; padding-bottom: 10px; border-bottom: 3px solid #0891b2;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 55%;">
+                                <h1 style="color: #0891b2; font-size: 24px; margin: 0 0 3px 0; font-weight: 700; letter-spacing: -0.3px;">
+                                    <t t-esc="data.get('model_name', 'Records')"/>
+                                </h1>
+                                <p style="color: #64748b; font-size: 12px; margin: 0;">
+                                    <t t-esc="data.get('company_name', '')"/>
+                                </p>
+                            </td>
+                            <td style="width: 45%; text-align: right; vertical-align: top;">
+                                <p style="color: #475569; font-size: 12px; margin: 0 0 4px 0;">
+                                    <strong>Records:</strong> <t t-esc="data.get('showing_from')"/> to <t t-esc="data.get('showing_to')"/> of <t t-esc="data.get('total_records')"/>
+                                </p>
+                                <p style="color: #475569; font-size: 12px; margin: 0;">
+                                    <strong>Page:</strong> <t t-esc="data.get('page_number')"/> / <t t-esc="data.get('total_pages')"/>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-                    <t t-foreach="data.get('table_chunks', [])" t-as="chunk">
-                        <table class="table table-sm table-bordered" style="font-size: 8px; width: 100%; table-layout: fixed;">
+                <!-- Data Table -->
+                <t t-if="data.get('table_chunks')">
+                    <t t-foreach="data.get('table_chunks')" t-as="chunk">
+                        <table style="width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #cbd5e1;">
                             <thead>
-                                <tr style="background-color: #f8f9fa;">
-                                    <th t-foreach="chunk.get('headers', [])" t-as="header" style="padding: 4px 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                <tr>
+                                    <th t-foreach="chunk.get('headers', [])" t-as="header" 
+                                        style="padding: 11px 10px; text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff; background-color: #0891b2; border-right: 1px solid #06b6d4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                         <t t-esc="header"/>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr t-foreach="chunk.get('rows', [])" t-as="row">
-                                    <td t-foreach="row" t-as="cell" style="padding: 3px 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <td t-foreach="row" t-as="cell" 
+                                        style="padding: 10px 10px; color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #f1f5f9;">
                                         <t t-esc="cell"/>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </t>
-                    <t t-if="not data.get('rows')">
-                        <p class="text-center text-muted py-5">No records to display.</p>
-                    </t>
+                </t>
+
+                <!-- Empty State -->
+                <t t-if="not data.get('rows') or len(data.get('rows', [])) == 0">
+                    <div style="text-align: center; padding: 80px 20px;">
+                        <p style="color: #94a3b8; font-size: 16px; margin: 0;">
+                            No records to display
+                        </p>
+                    </div>
+                </t>
+
+                <!-- Footer -->
+                <div style="margin-top: 16px; padding-top: 8px; text-align: center;">
+                    <p style="color: #94a3b8; font-size: 8px; margin: 0;">
+                        Generated by Preview List PDF &#8226; <t t-esc="data.get('company_name', '')"/>
+                    </p>
                 </div>
-            </t>
+                
+            </div>
         </t>
     </template>
 </odoo>
