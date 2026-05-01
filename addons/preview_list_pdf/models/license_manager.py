@@ -42,7 +42,10 @@ class PreviewListLicenseManager(models.AbstractModel):
 
     def _periodic_validate_license(self):
         icp = self.env["ir.config_parameter"].sudo()
-        icp.set_param("preview_list_pdf.license_valid", "True" if self._is_license_valid() else "False")
+        is_valid = self._is_license_valid()
+        icp.set_param("preview_list_pdf.license_valid", "True" if is_valid else "False")
+        if is_valid:
+            icp.set_param("preview_list_pdf.license_activated", "True")
         return True
 
 
@@ -51,6 +54,31 @@ class ResConfigSettings(models.TransientModel):
 
     preview_list_pdf_license_key = fields.Char(string="Preview List PDF License Key")
     preview_list_pdf_license_valid = fields.Boolean(string="License Valid", readonly=True)
+    
+    # Computed display fields for better UX
+    preview_list_pdf_license_status = fields.Char(
+        string="License Status", 
+        compute="_compute_preview_list_pdf_license_status",
+        readonly=True
+    )
+    preview_list_pdf_license_status_class = fields.Char(
+        string="Status Class",
+        compute="_compute_preview_list_pdf_license_status",
+        readonly=True
+    )
+
+    @api.depends('preview_list_pdf_license_valid', 'preview_list_pdf_license_key')
+    def _compute_preview_list_pdf_license_status(self):
+        for record in self:
+            if record.preview_list_pdf_license_valid:
+                record.preview_list_pdf_license_status = "Activated & Verified"
+                record.preview_list_pdf_license_status_class = "success"
+            elif record.preview_list_pdf_license_key:
+                record.preview_list_pdf_license_status = "Invalid License Key"
+                record.preview_list_pdf_license_status_class = "danger"
+            else:
+                record.preview_list_pdf_license_status = "Not Licensed"
+                record.preview_list_pdf_license_status_class = "secondary"
 
     @api.model
     def get_values(self):
@@ -71,28 +99,66 @@ class ResConfigSettings(models.TransientModel):
         if key and not self.env["preview.list.license.manager"]._license_pattern_ok(key):
             raise UserError(_("License key format must be XXXX-XXXX-XXXX-XXXX."))
         icp.set_param("preview_list_pdf.license_key", key)
-        icp.set_param("preview_list_pdf.license_valid", "True" if self.env["preview.list.license.manager"]._validate_license(key) else "False")
+        is_valid = self.env["preview.list.license.manager"]._validate_license(key)
+        icp.set_param("preview_list_pdf.license_valid", "True" if is_valid else "False")
 
     def action_activate_preview_list_pdf_license(self):
         self.ensure_one()
         key = (self.preview_list_pdf_license_key or "").strip().upper()
         manager = self.env["preview.list.license.manager"]
+        
+        if not key:
+            raise UserError(_("Please enter a license key before activating."))
+        
         if not manager._license_pattern_ok(key):
-            raise UserError(_("License key format must be XXXX-XXXX-XXXX-XXXX."))
+            raise UserError(_(
+                "Invalid license key format.\n\n"
+                "The license key must be in the format: XXXX-XXXX-XXXX-XXXX\n"
+                "Example: L39I-YPWY-MZ1F-FOM9"
+            ))
+        
         icp = self.env["ir.config_parameter"].sudo()
         icp.set_param("preview_list_pdf.license_key", key)
         is_valid = manager._validate_license(key)
+        
         icp.set_param("preview_list_pdf.license_valid", "True" if is_valid else "False")
-        icp.set_param("preview_list_pdf.license_activated", "True" if is_valid else "False")
-        if not is_valid:
-            raise UserError(_("Invalid license key. Please verify the key and configured license hash."))
-        self.preview_list_pdf_license_valid = True
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Success"),
-                "message": _("Preview List PDF license activated successfully."),
-                "type": "success",
-            },
-        }
+        
+        if is_valid:
+            icp.set_param("preview_list_pdf.license_activated", "True")
+            self.preview_list_pdf_license_valid = True
+            
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("License Activated"),
+                    "message": _(
+                        "Preview List PDF has been successfully activated!\n\n"
+                        "The PDF preview button will now appear on all list views. "
+                        "Your license will be automatically validated every 12 hours."
+                    ),
+                    "type": "success",
+                    "sticky": True,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+        else:
+            icp.set_param("preview_list_pdf.license_activated", "False")
+            self.preview_list_pdf_license_valid = False
+            
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Invalid License"),
+                    "message": _(
+                        "The license key you entered is not valid.\n\n"
+                        "Please verify the key and try again. If the problem persists, "
+                        "contact Showline Solutions for support."
+                    ),
+                    "type": "danger",
+                    "sticky": True,
+                },
+            }
