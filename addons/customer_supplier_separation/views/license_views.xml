@@ -6,17 +6,106 @@
         <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app string="Customer Supplier Separation License" name="customer_supplier_separation_license_app">
-                    <block title="License">
-                        <setting>
-                            <field name="css_license_key" placeholder="XXXX-XXXX-XXXX-XXXX"/>
-                            <field name="css_license_valid" readonly="1"/>
-                            <button name="action_activate_customer_supplier_separation_license" type="object" string="Activate License" class="btn btn-primary"/>
-                            <div class="alert alert-warning mt16" invisible="css_license_valid">
-                                <strong>Unlicensed:</strong> Customer/Supplier separation restrictions are inactive.
+                <app string="Customer Supplier Separation" name="customer_supplier_separation_license_app">
+                    
+                    <!-- License Block -->
+                    <block title="License Activation" name="css_license_block">
+                        
+                        <!-- License Status Indicator -->
+                        <div class="d-flex align-items-center mb-3 p-3 rounded" 
+                             style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                            <div class="me-3">
+                                <field name="css_license_valid" 
+                                       readonly="1" 
+                                       widget="boolean_toggle"
+                                       disabled="1"/>
                             </div>
+                            <div>
+                                <strong style="font-size: 15px; color: #1e293b;">License Status</strong>
+                                <br/>
+                                <span style="font-size: 13px; color: #64748b;">
+                                    <field name="css_license_status" 
+                                           readonly="1" 
+                                           class="fw-bold"/>
+                                </span>
+                            </div>
+                            <div class="ms-auto">
+                                <span class="badge fs-6" 
+                                      style="background-color: #10b981; color: white; padding: 8px 16px;"
+                                      invisible="not css_license_valid">
+                                    <i class="fa fa-shield-check me-1"/> Licensed &amp; Verified
+                                </span>
+                                <span class="badge fs-6" 
+                                      style="background-color: #ef4444; color: white; padding: 8px 16px;"
+                                      invisible="css_license_valid or not css_license_key">
+                                    <i class="fa fa-shield-xmark me-1"/> Invalid License
+                                </span>
+                                <span class="badge fs-6" 
+                                      style="background-color: #94a3b8; color: white; padding: 8px 16px;"
+                                      invisible="css_license_valid or css_license_key">
+                                    <i class="fa fa-shield me-1"/> Not Licensed
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- License Key -->
+                        <setting string="License Key" 
+                                 help="Enter your license key in format XXXX-XXXX-XXXX-XXXX.">
+                            <field name="css_license_key" 
+                                   placeholder="XXXX-XXXX-XXXX-XXXX" 
+                                   style="width: 280px; font-family: 'Courier New', monospace; font-size: 15px; letter-spacing: 2px; text-transform: uppercase;"/>
                         </setting>
+                        
+                        <!-- Buttons -->
+                        <div class="mt-3 mb-3 d-flex gap-2">
+                            <button name="action_activate_customer_supplier_separation_license" 
+                                    type="object" 
+                                    string="Validate &amp; Activate License" 
+                                    class="btn btn-primary btn-lg"
+                                    icon="fa-key"
+                                    invisible="css_license_valid"/>
+                            <button name="action_activate_customer_supplier_separation_license" 
+                                    type="object" 
+                                    string="Re-validate License" 
+                                    class="btn btn-outline-primary"
+                                    icon="fa-refresh"
+                                    invisible="not css_license_valid"/>
+                        </div>
+                        
+                        <div class="text-muted small mt-2">
+                            <i class="fa fa-clock-o me-1"/>
+                            License is automatically validated every 12 hours.
+                        </div>
+                        
                     </block>
+                    
+                    <!-- About Block -->
+                    <block title="About Customer Supplier Separation" name="css_about_block">
+                        <div class="text-muted">
+                            <p class="mb-3">
+                                <strong>Customer Supplier Separation</strong> adds dedicated 
+                                customer and supplier flags to contacts with automatic categorization 
+                                and filtered domains.
+                            </p>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>Customer &amp; Supplier flags</p>
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>Computed contact type</p>
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>Filtered Sales/Purchase domains</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>Auto-categorization</p>
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>Vendor list integration</p>
+                                    <p class="mb-2"><i class="fa fa-check-circle text-success me-2"/>License protected</p>
+                                </div>
+                            </div>
+                            <hr/>
+                            <p class="mb-1"><strong>Version:</strong> 19.0.1.0.0</p>
+                            <p class="mb-1"><strong>Developed by:</strong> Showline Solutions</p>
+                            <p class="mb-0"><strong>Website:</strong> showline.co.zw</p>
+                        </div>
+                    </block>
+                    
                 </app>
             </xpath>
         </field>
