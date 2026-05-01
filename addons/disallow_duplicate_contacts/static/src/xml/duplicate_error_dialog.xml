@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="disallow_duplicate_contacts.DuplicateErrorDialog">
+        <div class="ddc-error-dialog" 
+             style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                    background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px); 
+                    -webkit-backdrop-filter: blur(8px);
+                    z-index: 10001; display: flex; align-items: center; justify-content: center;
+                    animation: ddcFadeIn 0.2s ease;">
+            
+            <div style="background: white; border-radius: 16px; padding: 40px 36px 32px 36px; 
+                        text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,0.5); 
+                        max-width: 440px; width: 92%; animation: ddcSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);">
+                
+                <!-- Lottie Error Animation Container -->
+                <div id="ddc_error_lottie" style="width: 90px; height: 90px; margin: 0 auto 16px auto;">
+                    <!-- Static fallback shown while Lottie loads -->
+                    <div t-if="!state.animationLoaded or state.lottieError" 
+                         style="width: 80px; height: 80px; background: #fef2f2; border-radius: 50%; 
+                                margin: 5px auto; display: flex; align-items: center; justify-content: center;
+                                border: 3px solid #fecaca;">
+                        <i class="fa fa-exclamation-triangle" style="font-size: 32px; color: #ef4444;"/>
+                    </div>
+                </div>
+                
+                <!-- Title -->
+                <h3 style="color: #dc2626; font-size: 20px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.2px;">
+                    <t t-esc="props.title or 'Duplicate Contact Detected'"/>
+                </h3>
+                
+                <!-- Reason Badge -->
+                <div t-if="props.reason" 
+                     style="display: inline-block; background: #fef2f2; color: #dc2626; 
+                            padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 10px;">
+                    <i class="fa fa-search me-1"/>
+                    <t t-esc="props.reason"/>
+                </div>
+                
+                <!-- Message -->
+                <p style="color: #4b5563; font-size: 14px; margin-bottom: 18px; line-height: 1.6;">
+                    <t t-esc="props.message or 'A contact with similar information already exists in the database.'"/>
+                </p>
+                
+                <!-- Duplicate Contact Info Card -->
+                <div t-if="props.duplicateName" 
+                     style="background: #fef2f2; border: 1px solid #fecaca; 
+                            border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; text-align: left;">
+                    <p style="color: #991b1b; font-size: 11px; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
+                        <i class="fa fa-user me-1"/> Existing Contact
+                    </p>
+                    <p style="color: #7f1d1d; font-size: 14px; font-weight: 600; margin: 0 0 2px 0;">
+                        <t t-esc="props.duplicateName"/>
+                    </p>
+                    <p t-if="props.duplicateId" style="color: #b91c1c; font-size: 12px; margin: 0;">
+                        ID: <t t-esc="props.duplicateId"/>
+                    </p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn btn-light" 
+                            t-on-click="onClose" 
+                            style="border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 500;
+                                   border: 1px solid #d1d5db; color: #374151; background: white;
+                                   transition: all 0.2s;">
+                        <i class="fa fa-times me-2"/> Close
+                    </button>
+                    
+                    <button t-if="props.duplicateId" 
+                            class="btn" 
+                            t-on-click="onViewDuplicate" 
+                            style="border-radius: 8px; padding: 10px 22px; font-size: 14px; font-weight: 500;
+                                   background: #dc2626; color: white; border: none;
+                                   box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+                                   transition: all 0.2s;">
+                        <i class="fa fa-external-link me-2"/> View Duplicate
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        
+        <style>
+            @keyframes ddcFadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes ddcSlideUp {
+                from { 
+                    opacity: 0; 
+                    transform: translateY(30px) scale(0.95); 
+                }
+                to { 
+                    opacity: 1; 
+                    transform: translateY(0) scale(1); 
+                }
+            }
+            
+            .ddc-error-dialog .btn:hover {
+                transform: translateY(-1px);
+            }
+            
+            .ddc-error-dialog .btn-light:hover {
+                background: #f9fafb;
+                border-color: #9ca3af;
+            }
+        </style>
+    </t>
+</templates>
