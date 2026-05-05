@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Salary Summary = consolidated pay-run totals only (no employee names). -->
+    <template id="report_salary_summary_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="zimbabwe_payroll.zw_report_minimal_wrap">
+                    <div class="page zw-payroll-doc">
+                        <t t-set="company" t-value="run.company_id"/>
+                        <style>
+                            .zw-payroll-doc { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1f2937; }
+                            .zw-doc-header { border-bottom: 3px solid #2c3e50; margin-bottom: 20px; padding-bottom: 16px; }
+                            .zw-doc-header-inner { display: flex; align-items: flex-start; gap: 16px; }
+                            .zw-doc-logo-img { max-height: 72px; max-width: 180px; }
+                            .zw-doc-company-name { font-size: 16px; font-weight: 700; color: #111827; }
+                            .zw-doc-meta { font-size: 13px; color: #374151; line-height: 1.5; margin-top: 2px; }
+                            .zw-doc-title { text-align: center; font-size: 17px; font-weight: 700; margin: 8px 0 6px 0; letter-spacing: 0.02em; }
+                            .zw-doc-subtitle { text-align: center; font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+                            .zw-section-bar { background: #2c3e50; color: #fff; padding: 10px 12px; font-size: 14px; font-weight: 700; margin: 0 0 0 0; }
+                            .zw-sum-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+                            .zw-sum-table th, .zw-sum-table td { border: 1px solid #d1d5db; padding: 10px 12px; font-size: 13px; }
+                            .zw-sum-table thead th { background: #2c3e50; color: #fff; font-weight: 700; font-size: 14px; }
+                            .zw-sum-table tbody tr:nth-child(even) td { background: #f9fafb; }
+                            .zw-right { text-align: right; white-space: nowrap; }
+                            .zw-sum-table .zw-net td { background: #d1fae5; font-weight: 700; }
+                            .zw-sum-table .zw-emphasis td { background: #f3f4f6; font-weight: 700; }
+                            .zw-footnote { font-size: 11px; color: #9ca3af; margin-top: 24px; text-align: center; }
+                        </style>
+
+                        <t t-call="zimbabwe_payroll.payroll_report_company_header"/>
+
+                        <div class="zw-doc-title">Payroll salary summary</div>
+                        <div class="zw-doc-subtitle">
+                            Pay run: <span t-out="run.name"/> —
+                            Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/>
+                        </div>
+
+                        <div class="zw-section-bar">Consolidated totals (all employees)</div>
+                        <t t-set="summary" t-value="(data or {}).get('summary', {})"/>
+                        <table class="zw-sum-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="zw-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total basic salary</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('basic_salary', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total gross wage</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('gross_wage', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr class="zw-net">
+                                    <td>Total net pay</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total earnings (payslip lines)</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total deductions (payslip lines)</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr class="zw-emphasis">
+                                    <td>Employer costs</td>
+                                    <td class="zw-right">
+                                        <span t-out="summary.get('employer_costs', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="zw-footnote">Summary only — per-employee detail is available in the Salary Breakdown report.</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_salary_summary" model="ir.actions.report">
+        <field name="name">Salary Summary</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_salary_summary_document</field>
+        <field name="report_file">zimbabwe_payroll.report_salary_summary_document</field>
+    </record>
+</odoo>

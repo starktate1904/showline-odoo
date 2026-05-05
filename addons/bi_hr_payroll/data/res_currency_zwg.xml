@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ZWG Currency -->
+        <record id="currency_zwg" model="res.currency">
+            <field name="name">Zimbabwe Gold</field>
+            <field name="symbol">ZWG</field>
+            <field name="full_name">Zimbabwe Gold</field>
+            <field name="currency_unit_label">ZiG</field>
+            <field name="currency_subunit_label">Cents</field>
+            <field name="rounding">0.01</field>
+            <field name="decimal_places">2</field>
+            <field name="position">before</field>
+            <field name="active">True</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Salary Breakdown (Aggregated) = totals by earning/deduction type, no employee names. -->
+    <template id="report_salary_breakdown_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="zimbabwe_payroll.zw_report_minimal_wrap">
+                    <div class="page zw-payroll-doc">
+                        <t t-set="company" t-value="run.company_id"/>
+                        <t t-set="bd" t-value="(data or {}).get('breakdown', {})"/>
+                        <style>
+                            .zw-payroll-doc { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1f2937; }
+                            .zw-doc-title { text-align: center; font-size: 17px; font-weight: 700; margin: 8px 0 6px 0; }
+                            .zw-doc-subtitle { text-align: center; font-size: 13px; color: #6b7280; margin-bottom: 18px; }
+
+                            .zw-meta-grid { width: 100%; border-collapse: collapse; margin: 8px 0 18px 0; }
+                            .zw-meta-grid td { border: 1px solid #d1d5db; padding: 8px 10px; font-size: 12.5px; }
+                            .zw-meta-grid .zw-meta-label { width: 18%; background: #f8fafc; font-weight: 700; }
+
+                            .zw-br-table { width: 100%; border-collapse: collapse; page-break-inside: avoid; }
+                            .zw-br-table th, .zw-br-table td { border: 1px solid #d1d5db; padding: 10px 12px; font-size: 13px; }
+                            .zw-br-table thead th { background: #2c3e50; color: #fff; font-weight: 700; font-size: 14px; }
+                            .zw-br-table tbody tr:nth-child(even) td { background: #f9fafb; }
+                            .zw-right { text-align: right; white-space: nowrap; }
+                            .zw-br-table .zw-total td { background: #f3f4f6; font-weight: 700; }
+                            .zw-br-table .zw-grand td { background: #d1fae5; font-weight: 800; }
+                        </style>
+
+                        <t t-call="zimbabwe_payroll.payroll_report_company_header"/>
+
+                        <div class="zw-doc-title">Payroll summary (detailed)</div>
+                        <div class="zw-doc-subtitle">
+                            Pay run: <span t-out="run.name"/> —
+                            Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/>
+                        </div>
+
+                        <table class="zw-meta-grid">
+                            <tr>
+                                <td class="zw-meta-label">Company</td>
+                                <td><span t-out="run.company_id.name"/></td>
+                                <td class="zw-meta-label">Department</td>
+                                <td>All Departments</td>
+                            </tr>
+                            <tr>
+                                <td class="zw-meta-label">Period</td>
+                                <td><span t-out="run.date_start"/> to <span t-out="run.date_end"/></td>
+                                <td class="zw-meta-label">Total employees</td>
+                                <td><span t-out="bd.get('total_employees', 0)"/></td>
+                            </tr>
+                            <tr>
+                                <td class="zw-meta-label">Currency</td>
+                                <td><span t-out="run.company_id.currency_id.name"/></td>
+                                <td class="zw-meta-label">Report date</td>
+                                <td><span t-out="bd.get('report_date', '')"/></td>
+                            </tr>
+                        </table>
+
+                        <table class="zw-br-table">
+                            <thead>
+                                <tr>
+                                    <th>EARNINGS</th>
+                                    <th class="zw-right">AMOUNT (USD)</th>
+                                    <th>DEDUCTIONS</th>
+                                    <th class="zw-right">AMOUNT (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="earn_rows" t-value="bd.get('earnings', [])"/>
+                                <t t-set="ded_rows" t-value="bd.get('deductions', [])"/>
+                                <t t-set="max_rows" t-value="max(len(earn_rows), len(ded_rows))"/>
+                                <t t-foreach="range(max_rows)" t-as="idx">
+                                    <tr>
+                                        <td>
+                                            <span t-if="idx &lt; len(earn_rows)" t-out="earn_rows[idx]['name']"/>
+                                        </td>
+                                        <td class="zw-right">
+                                            <span
+                                                t-if="idx &lt; len(earn_rows)"
+                                                t-out="earn_rows[idx]['amount']"
+                                                t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'
+                                            />
+                                        </td>
+                                        <td>
+                                            <span t-if="idx &lt; len(ded_rows)" t-out="ded_rows[idx]['name']"/>
+                                        </td>
+                                        <td class="zw-right">
+                                            <span
+                                                t-if="idx &lt; len(ded_rows)"
+                                                t-out="ded_rows[idx]['amount']"
+                                                t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'
+                                            />
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr class="zw-total">
+                                    <td>Total earnings</td>
+                                    <td class="zw-right">
+                                        <span t-out="bd.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                    <td>Total deductions</td>
+                                    <td class="zw-right">
+                                        <span t-out="bd.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                                <tr class="zw-grand">
+                                    <td colspan="3">NET PAY</td>
+                                    <td class="zw-right">
+                                        <span t-out="(bd.get('total_earnings', 0.0) - bd.get('total_deductions', 0.0))" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_salary_breakdown" model="ir.actions.report">
+        <field name="name">Salary Breakdown</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_salary_breakdown_document</field>
+        <field name="report_file">zimbabwe_payroll.report_salary_breakdown_document</field>
+    </record>
+</odoo>

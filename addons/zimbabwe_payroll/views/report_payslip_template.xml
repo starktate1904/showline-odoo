@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="zw_report_minimal_wrap">
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+    </template>
+
+    <template id="report_payslip" inherit_id="hr_payroll.report_payslip">
+        <!-- Minimal wrap: no external_layout header/footer on every page -->
+        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">zimbabwe_payroll.zw_report_minimal_wrap</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='is_invalid']" position="replace"/>
+        <xpath expr="//div[@t-if='is_invalid']" position="replace"/>
+        <xpath expr="//div[@t-else='']" position="replace"/>
+
+        <xpath expr="//div[@id='infos_table']" position="before">
+            <style>
+                .zw-section-block {
+                    margin: 14px 0;
+                    padding: 8px 0;
+                }
+                .zw-payslip-company-header {
+                    border-bottom: 2px solid #2c3e50;
+                    margin-bottom: 14px;
+                    padding-bottom: 12px;
+                }
+                .zw-company-logo {
+                    max-height: 80px;
+                    max-width: 200px;
+                }
+                .zw-company-name {
+                    font-size: 15px;
+                    font-weight: 700;
+                    color: #1f2937;
+                    line-height: 1.2;
+                }
+                .zw-report-title {
+                    font-size: 15px;
+                    font-weight: 700;
+                    text-align: center;
+                    color: #1f2937;
+                    margin: 10px 0 16px 0;
+                }
+                .zw-company-meta {
+                    font-size: 13px;
+                    color: #374151;
+                    line-height: 1.45;
+                    margin-top: 2px;
+                }
+                .zw-section-title {
+                    background-color: #2c3e50;
+                    color: #ffffff;
+                    padding: 10px;
+                    font-size: 15px;
+                    font-weight: 700;
+                    letter-spacing: 0.3px;
+                    margin-bottom: 0;
+                }
+                .zw-employee-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 0 0 14px 0;
+                }
+                .zw-employee-table td {
+                    border: 1px solid #d9d9d9;
+                    padding: 10px;
+                    font-size: 13px;
+                }
+                .zw-employee-table .zw-label {
+                    width: 24%;
+                    background-color: #f8fafc;
+                    font-weight: 700;
+                }
+                #worked_days_table {
+                    margin: 14px 0;
+                    padding: 8px 0;
+                    page-break-inside: avoid;
+                }
+                #worked_days_table table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    border: 1px solid #d9d9d9;
+                    margin: 0;
+                    page-break-inside: avoid;
+                }
+                #worked_days_table th {
+                    background-color: #2c3e50 !important;
+                    color: #ffffff !important;
+                    padding: 10px !important;
+                    font-size: 15px;
+                    font-weight: 700;
+                    border: 1px solid #d9d9d9 !important;
+                }
+                #worked_days_table td {
+                    border: 1px solid #d9d9d9 !important;
+                    padding: 10px !important;
+                    font-size: 13px;
+                }
+                .zw-payslip-table {
+                    width: 100%;
+                    border-collapse: collapse !important;
+                    border: 1px solid #d9d9d9;
+                    margin-top: 0;
+                    page-break-inside: avoid;
+                }
+                .zw-payslip-table thead tr th {
+                    background-color: #2c3e50 !important;
+                    color: #ffffff !important;
+                    font-weight: 700 !important;
+                    padding: 10px !important;
+                    border: 1px solid #d9d9d9 !important;
+                    font-size: 15px;
+                }
+                .zw-payslip-table tbody tr td,
+                .zw-payslip-table tfoot tr td {
+                    border: 1px solid #d9d9d9 !important;
+                    padding: 10px !important;
+                    font-size: 13px;
+                }
+                .zw-payslip-table tbody tr.zw-line-row td {
+                    background-color: #ffffff;
+                }
+                .zw-payslip-table tbody tr.zw-line-row.zw-alt-row td {
+                    background-color: #f8f9fa;
+                }
+                .zw-payslip-table tfoot tr.zw-total-row td {
+                    background-color: #f0f0f0;
+                    font-weight: 700;
+                    border-top: 2px solid #bfc5cc !important;
+                }
+                .zw-payslip-table tfoot tr.zw-net-pay-row td {
+                    background-color: #d4edda;
+                    font-weight: 700;
+                    font-size: 15px;
+                    border-top: 3px double #6c757d !important;
+                }
+                .zw-payslip-table .zw-label-left {
+                    text-align: left;
+                }
+                .zw-payslip-table .zw-amount-right {
+                    text-align: right;
+                    white-space: nowrap;
+                }
+                #payslip_lines_table {
+                    page-break-inside: avoid;
+                }
+            </style>
+        </xpath>
+        <xpath expr="//h2[@id='payslip_name']" position="replace"/>
+
+        <xpath expr="//div[@id='infos_table']" position="replace">
+            <div class="zw-section-block zw-payslip-company-header d-flex justify-content-between align-items-start">
+                <div class="pe-3">
+                    <img t-if="o.company_id.logo" class="zw-company-logo" t-att-src="image_data_uri(o.company_id.logo)"/>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="zw-company-name">
+                        <span t-field="o.company_id.name"/>
+                    </div>
+                    <div class="zw-company-meta" t-if="o.company_id.street or o.company_id.street2">
+                        <span t-field="o.company_id.street"/><t t-if="o.company_id.street2">, <span t-field="o.company_id.street2"/></t>
+                    </div>
+                    <div class="zw-company-meta" t-if="o.company_id.city or o.company_id.zip">
+                        <span t-field="o.company_id.city"/> <span t-field="o.company_id.zip"/>
+                    </div>
+                    <div class="zw-company-meta" t-if="o.company_id.country_id">
+                        <span t-field="o.company_id.country_id"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zw-report-title">
+                SALARY SLIP - <span t-out="o.employee_id.name or '-'"/> -
+                <span t-if="o.date_to" t-out="o.date_to.strftime('%B %Y')"/>
+                <span t-else="">-</span>
+            </div>
+            <div class="zw-section-title">Employee Information</div>
+            <t t-set="employee_identifier" t-value="o.employee_id.identification_id or o.employee_id.id"/>
+            <table class="zw-employee-table">
+                <tbody>
+                    <tr>
+                        <td class="zw-label">Employee ID</td>
+                        <td><span t-out="employee_identifier"/></td>
+                        <td class="zw-label">Name</td>
+                        <td><span t-field="o.employee_id.name"/></td>
+                    </tr>
+                    <tr>
+                        <td class="zw-label">Department</td>
+                        <td><span t-out="o.employee_id.department_id.name or '-'"/></td>
+                        <td class="zw-label">Designation</td>
+                        <td><span t-out="o.employee_id.job_title or '-'"/></td>
+                    </tr>
+                    <tr>
+                        <td class="zw-label">Date of Joining</td>
+                        <td colspan="3">
+                            <span t-out="o.version_id.contract_date_start or '-'"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+        <xpath expr="//div[@id='payslip_lines_table']/table" position="attributes">
+            <attribute name="class">table table-sm table-borderless zw-payslip-table</attribute>
+        </xpath>
+        <xpath expr="//div[@id='payslip_lines_table']//thead//tr" position="replace">
+            <tr>
+                <th id="line_header_earnings" class="zw-label-left">EARNINGS</th>
+                <th id="line_header_earnings_amount" class="zw-amount-right">AMOUNT (USD)</th>
+                <th id="line_header_deductions" class="zw-label-left">DEDUCTIONS</th>
+                <th id="line_header_deductions_amount" class="zw-amount-right">AMOUNT (USD)</th>
+                <th id="line_header_ytd" class="text-end" t-if="o.ytd_computation">
+                    <strong>YTD</strong>
+                </th>
+            </tr>
+        </xpath>
+        <xpath expr="//tbody[@id='payslip_lines']" position="replace">
+            <tbody id="payslip_lines">
+                <t t-set="excluded_codes" t-value="['GROSS_TAXABLE', 'TAXABLE_INC', 'TOT_ALLOW_DED', 'TOT_CREDITS']"/>
+                <t t-set="earning_categories" t-value="['TAXABLE', 'BONUS', 'NONTAX']"/>
+                <t t-set="deduction_categories" t-value="['PAYE', 'AIDS_LEVY', 'NSSA', 'MED_AID', 'FUNERAL', 'LOAN', 'ALLOW_DED', 'NONALLOW_DED', 'NEC', 'ZIMDEF']"/>
+                <t t-set="display_lines" t-value="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.total and line.code not in excluded_codes)"/>
+                <t t-set="earning_lines" t-value="display_lines.filtered(lambda line: line.total &gt; 0 and line.category_id and line.category_id.code in earning_categories)"/>
+                <t t-set="deduction_lines" t-value="display_lines.filtered(lambda line: line.total &lt; 0 and line.category_id and line.category_id.code in deduction_categories)"/>
+                <t t-set="max_rows" t-value="max(len(earning_lines), len(deduction_lines))"/>
+                <span t-foreach="range(max_rows)" t-as="line_index">
+                    <tr id="line_display" t-attf-class="zw-line-row #{'zw-alt-row' if line_index % 2 else ''}">
+                        <td id="payslip_earning_name" class="zw-label-left">
+                            <span t-if="line_index &lt; len(earning_lines)" t-out="earning_lines[line_index].name"/>
+                        </td>
+                        <td id="payslip_earning_amount" class="zw-amount-right">
+                            <span t-if="line_index &lt; len(earning_lines)"
+                                  t-out="earning_lines[line_index].total"
+                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </td>
+                        <td id="payslip_deduction_name" class="zw-label-left">
+                            <span t-if="line_index &lt; len(deduction_lines)" t-out="deduction_lines[line_index].name"/>
+                        </td>
+                        <td id="payslip_deduction_amount" class="zw-amount-right">
+                            <span t-if="line_index &lt; len(deduction_lines)"
+                                  t-out="abs(deduction_lines[line_index].total)"
+                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        </td>
+                        <td id="payslip_line_ytd" class="text-end" t-if="o.ytd_computation">
+                            <span t-if="line_index &lt; len(earning_lines)"
+                                  t-out="earning_lines[line_index].ytd"
+                                  t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        </td>
+                    </tr>
+                </span>
+            </tbody>
+        </xpath>
+        <xpath expr="//div[@id='payslip_lines_table']/table/tbody[@id='payslip_lines']" position="after">
+            <tfoot id="payslip_net_pay_row" class="border-top border-2">
+                <t t-set="excluded_codes" t-value="['GROSS_TAXABLE', 'TAXABLE_INC', 'TOT_ALLOW_DED', 'TOT_CREDITS']"/>
+                <t t-set="earning_categories" t-value="['TAXABLE', 'BONUS', 'NONTAX']"/>
+                <t t-set="deduction_categories" t-value="['PAYE', 'AIDS_LEVY', 'NSSA', 'MED_AID', 'FUNERAL', 'LOAN', 'ALLOW_DED', 'NONALLOW_DED', 'NEC', 'ZIMDEF']"/>
+                <t t-set="display_lines" t-value="o.line_ids.filtered(lambda line: line.appears_on_payslip and line.total and line.code not in excluded_codes)"/>
+                <t t-set="earning_lines" t-value="display_lines.filtered(lambda line: line.total &gt; 0 and line.category_id and line.category_id.code in earning_categories)"/>
+                <t t-set="deduction_lines" t-value="display_lines.filtered(lambda line: line.total &lt; 0 and line.category_id and line.category_id.code in deduction_categories)"/>
+                <t t-set="total_earnings" t-value="sum(earning_lines.mapped('total'))"/>
+                <t t-set="total_deductions" t-value="abs(sum(deduction_lines.mapped('total')))"/>
+                <tr class="zw-total-row">
+                    <td class="fw-bold pt-2 zw-label-left">Total Earnings</td>
+                    <td class="zw-amount-right fw-bold pt-2">
+                        <span t-out="total_earnings" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                    <td class="fw-bold pt-2 zw-label-left">Total Deductions</td>
+                    <td class="zw-amount-right fw-bold pt-2">
+                        <span t-out="total_deductions" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                    <td t-if="o.ytd_computation" class="pt-2"/>
+                </tr>
+                <tr class="zw-net-pay-row">
+                    <td class="fw-bold"/>
+                    <td class="zw-amount-right fw-bold"/>
+                    <td class="fw-bold zw-label-left">NET PAY</td>
+                    <td class="zw-amount-right fw-bold">
+                        <span t-out="(total_earnings - total_deductions)" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                    </td>
+                    <td t-if="o.ytd_computation"/>
+                </tr>
+                <tr>
+                    <td class="pt-3">HR Signature ____________________</td>
+                    <td/>
+                    <td class="pt-3">Employee Signature ____________________</td>
+                    <td/>
+                    <td t-if="o.ytd_computation"/>
+                </tr>
+            </tfoot>
+        </xpath>
+        <xpath expr="//div[@id='to_pay']" position="replace"/>
+    </template>
+
+    <record id="hr_payroll.action_report_payslip" model="ir.actions.report">
+        <field name="report_name">hr_payroll.report_payslip_lang</field>
+        <field name="report_file">hr_payroll.report_payslip_lang</field>
+    </record>
+</odoo>

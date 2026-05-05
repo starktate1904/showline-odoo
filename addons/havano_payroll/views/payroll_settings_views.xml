@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_havano_payroll_settings_form" model="ir.ui.view">
+        <field name="name">havano.payroll.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='payroll_settings']" position="after">
+
+                <h2>Havano Payroll - Zimbabwe Settings</h2>
+
+                <!-- NSSA -->
+                <div class="row mt16">
+                    <div class="col-12"><h3>NSSA Configuration</h3></div>
+                </div>
+                <div class="row mt8">
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_nssa_employee_pct">Employee Contribution (%)</label>
+                        <field name="havano_nssa_employee_pct"/>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_nssa_ceiling">Ceiling Amount</label>
+                        <field name="havano_nssa_ceiling"/>
+                    </div>
+                </div>
+
+                <!-- Medical Aid Tax Credit -->
+                <div class="row mt16">
+                    <div class="col-12"><h3>Medical Aid Tax Credit</h3></div>
+                </div>
+                <div class="row mt8">
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_medical_aid_tax_credit_pct">Credit Percentage (%)</label>
+                        <field name="havano_medical_aid_tax_credit_pct"/>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_medical_aid_credit_ceiling">Credit Ceiling</label>
+                        <field name="havano_medical_aid_credit_ceiling"/>
+                    </div>
+                </div>
+
+                <!-- Fixed Tax Credits -->
+                <div class="row mt16">
+                    <div class="col-12"><h3>Fixed Tax Credits</h3></div>
+                </div>
+                <div class="row mt8">
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_tax_credit_blind">Blind Person</label>
+                        <field name="havano_tax_credit_blind"/>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_tax_credit_elderly">Elderly (65+)</label>
+                        <field name="havano_tax_credit_elderly"/>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_tax_credit_disabled">Disabled Person</label>
+                        <field name="havano_tax_credit_disabled"/>
+                    </div>
+                </div>
+
+                <!-- AIDS Levy -->
+                <div class="row mt16">
+                    <div class="col-12"><h3>AIDS Levy</h3></div>
+                </div>
+                <div class="row mt8">
+                    <div class="col-12 col-lg-4">
+                        <label for="havano_aids_levy_pct">AIDS Levy (%)</label>
+                        <field name="havano_aids_levy_pct"/>
+                    </div>
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Payroll Menu Root -->
+    <menuitem id="menu_havano_payroll_root"
+              name="Havano Payroll"
+              parent="hr_payroll.menu_hr_payroll_root"
+              sequence="50"/>
+
+    <menuitem id="menu_havano_payroll_config"
+              name="Configuration"
+              parent="menu_havano_payroll_root"
+              sequence="10"/>
+
+</odoo>

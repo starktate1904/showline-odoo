@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zimbabwe_payroll_settings_form" model="ir.ui.view">
+        <field name="name">zimbabwe.payroll.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+        <field name="priority">60</field>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='hr_payroll_settings']" position="inside">
+                <setting string="Zimbabwe NSSA" id="zimbabwe_nssa_settings" help="National Social Security Authority contribution parameters">
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-3">
+                            <label for="zimbabwe_nssa_employee_pct">Employee Contribution (%)</label>
+                            <field name="zimbabwe_nssa_employee_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="zimbabwe_nssa_employer_pct">Employer Contribution (%)</label>
+                            <field name="zimbabwe_nssa_employer_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="zimbabwe_nssa_ceiling">Ceiling</label>
+                            <field name="zimbabwe_nssa_ceiling"/>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <label for="zimbabwe_nssa_cap">Cap Amount</label>
+                            <field name="zimbabwe_nssa_cap"/>
+                        </div>
+                    </div>
+                </setting>
+                <setting string="Zimbabwe NEC" id="zimbabwe_nec_settings" help="National Employment Council contribution parameters">
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-4">
+                            <label for="zimbabwe_nec_employee_pct">Employee Contribution (%)</label>
+                            <field name="zimbabwe_nec_employee_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="zimbabwe_nec_ceiling">Ceiling</label>
+                            <field name="zimbabwe_nec_ceiling"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="zimbabwe_nec_cap">Cap Amount</label>
+                            <field name="zimbabwe_nec_cap"/>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_zimbabwe_payroll_root"
+              name="Zimbabwe Payroll"
+              parent="hr_work_entry_enterprise.menu_hr_payroll_root"
+              sequence="50"/>
+
+    <menuitem id="menu_zimbabwe_payroll_config"
+              name="Configuration"
+              parent="menu_zimbabwe_payroll_root"
+              sequence="10"/>
+</odoo>

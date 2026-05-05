@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_form_havano" model="ir.ui.view">
+        <field name="name">hr.employee.form.havano</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <group name="personal_info" position="inside">
+                <!-- Tax Credit Flags -->
+                <field name="is_blind"/>
+                <field name="is_disabled"/>
+                <field name="is_over_65"/>
+            </group>
+        </field>
+    </record>
+</odoo>

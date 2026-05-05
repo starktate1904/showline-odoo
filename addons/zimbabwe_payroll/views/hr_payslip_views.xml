@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Hide zero-total computed lines on the payslip (inputs / unused rules) -->
+    <record id="view_hr_payslip_form_zimbabwe_line_domain" model="ir.ui.view">
+        <field name="name">hr.payslip.form.zimbabwe.line.domain</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']" position="attributes">
+                <attribute name="domain">[('total', '!=', 0)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_payslip_form_zimbabwe_editable_lines" model="ir.ui.view">
+        <field name="name">hr.payslip.form.zimbabwe.editable.lines</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/list" position="attributes">
+                <attribute name="create">1</attribute>
+                <attribute name="delete">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/list/field[@name='quantity']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/list/field[@name='rate']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/list/field[@name='amount']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/list/field[@name='salary_rule_id']" position="attributes">
+                <attribute name="groups"></attribute>
+                <attribute name="optional">show</attribute>
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/form/group/field[@name='salary_rule_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/form/group/field[@name='amount']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/form/group/field[@name='rate']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='salary_computation']/field[@name='line_ids']/form/group/field[@name='quantity']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
