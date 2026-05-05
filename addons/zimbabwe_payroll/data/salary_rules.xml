@@ -64,6 +64,39 @@
             <field name="amount_python_compute">result = payslip._get_input_line_amount('LOAN_INT')</field>
         </record>
 
+        <!-- Seq 231: Overtime -->
+        <record id="rule_overtime" model="hr.salary.rule">
+            <field name="name">Overtime</field>
+            <field name="code">OVERTIME</field>
+            <field name="sequence">231</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('OVERTIME')</field>
+        </record>
+
+        <!-- Seq 232: Cost of Living (COLA) -->
+        <record id="rule_cola" model="hr.salary.rule">
+            <field name="name">Cost of Living (COLA)</field>
+            <field name="code">COLA</field>
+            <field name="sequence">232</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('COLA')</field>
+        </record>
+
+        <!-- Seq 233: Backpay -->
+        <record id="rule_backpay" model="hr.salary.rule">
+            <field name="name">Backpay</field>
+            <field name="code">BACKPAY</field>
+            <field name="sequence">233</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('BACKPAY')</field>
+        </record>
+
         <!-- Seq 300: Gross Taxable Income -->
         <record id="rule_gross_taxable" model="hr.salary.rule">
             <field name="name">Gross Taxable Income</field>
@@ -108,6 +141,24 @@ result = -deduction
 ]]></field>
         </record>
 
+        <!-- Seq 401: NSSA (Employer Portion) -->
+        <record id="rule_nssa_er" model="hr.salary.rule">
+            <field name="name">NSSA Employer Contribution</field>
+            <field name="code">NSSA_ER</field>
+            <field name="sequence">401</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_ceiling', '700'))
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_employer_pct', '4.5'))
+basic = result_rules['BASIC']['total'] or (payslip.version_id.contract_wage if payslip.version_id else 0.0)
+pensionable = min(basic, ceiling) if ceiling > 0 else basic
+result = (pensionable * pct / 100.0)
+]]></field>
+        </record>
+
         <!-- Seq 410: NEC -->
         <record id="rule_nec" model="hr.salary.rule">
             <field name="name">NEC Contribution</field>
@@ -115,17 +166,40 @@ result = -deduction
             <field name="sequence">410</field>
             <field name="struct_id" ref="structure_zimbabwe_payroll"/>
             <field name="category_id" ref="category_nec"/>
+            <field name="appears_on_payslip" eval="True"/>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employee_pct', '1.5'))
-ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_ceiling', '0'))
-cap = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employee_cap', '0'))
-basic = result_rules['BASIC']['total'] or (payslip.version_id.contract_wage if payslip.version_id else 0.0)
-pensionable = min(basic, ceiling) if ceiling > 0 else basic
-deduction = pensionable * pct / 100.0
-if cap > 0:
-    deduction = min(deduction, cap)
-result = -deduction
+total_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_total_pct', '2.5'))
+emp_split = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employee_split', '50.0'))
+pct = total_pct * (emp_split / 100.0)
+basic = result_rules['BASIC']['total'] if 'BASIC' in result_rules else 0.0
+overtime = result_rules['OVERTIME']['total'] if 'OVERTIME' in result_rules else 0.0
+cola = result_rules['COLA']['total'] if 'COLA' in result_rules else 0.0
+backpay = result_rules['BACKPAY']['total'] if 'BACKPAY' in result_rules else 0.0
+pensionable = basic + overtime + cola + backpay
+result = -(pensionable * pct / 100.0)
+]]></field>
+        </record>
+
+        <!-- Seq 411: NEC (Employer Portion) -->
+        <record id="rule_nec_er" model="hr.salary.rule">
+            <field name="name">NEC Employer Contribution</field>
+            <field name="code">NEC_ER</field>
+            <field name="sequence">411</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+total_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_total_pct', '2.5'))
+er_split = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employer_split', '50.0'))
+pct = total_pct * (er_split / 100.0)
+basic = result_rules['BASIC']['total'] if 'BASIC' in result_rules else 0.0
+overtime = result_rules['OVERTIME']['total'] if 'OVERTIME' in result_rules else 0.0
+cola = result_rules['COLA']['total'] if 'COLA' in result_rules else 0.0
+backpay = result_rules['BACKPAY']['total'] if 'BACKPAY' in result_rules else 0.0
+pensionable = basic + overtime + cola + backpay
+result = (pensionable * pct / 100.0)
 ]]></field>
         </record>
 
@@ -135,12 +209,16 @@ result = -deduction
             <field name="code">ZIMDEF</field>
             <field name="sequence">420</field>
             <field name="struct_id" ref="structure_zimbabwe_payroll"/>
-            <field name="category_id" ref="category_zimdef"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.zimdef_employee_pct', '1.0'))
-basic = result_rules['BASIC']['total'] or (payslip.version_id.contract_wage if payslip.version_id else 0.0)
-result = -(basic * pct / 100.0)
+basic_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.zimdef_basic_pct', '1.0'))
+contrib_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.zimdef_contrib_pct', '1.0'))
+gross = result_rules['GROSS']['total'] if 'GROSS' in result_rules else 0.0
+nssa = abs(result_rules['NSSA']['total']) if 'NSSA' in result_rules else 0.0
+nec = abs(result_rules['NEC']['total']) if 'NEC' in result_rules else 0.0
+result = ((gross * basic_pct / 100.0) + ((nssa + nec) * contrib_pct / 100.0))
 ]]></field>
         </record>
 
@@ -163,7 +241,7 @@ result = -(basic * pct / 100.0)
             <field name="struct_id" ref="structure_zimbabwe_payroll"/>
             <field name="category_id" ref="category_allowable_deduction"/>
             <field name="amount_select">code</field>
-            <field name="amount_python_compute">result = categories['NSSA'] + categories['NEC'] + categories['ZIMDEF'] + categories['MED_AID']</field>
+            <field name="amount_python_compute">result = categories['NSSA'] + categories['NEC'] + categories['MED_AID']</field>
         </record>
 
         <!-- Seq 600: Taxable Income -->
@@ -330,8 +408,8 @@ result = -(paye_amount * pct / 100.0)
             <field name="amount_python_compute"><![CDATA[
 # Sum only "cash" components; exclude subtotals (GROSS_TAXABLE, TOT_ALLOW_DED, TAXABLE_INC, credits, etc.)
 _net_codes = [
-    'BASIC', 'ALLOWANCE', 'HOUSE_ALLOW', 'BONUS', 'LOAN_INT',
-    'NSSA', 'NEC', 'ZIMDEF', 'MEDICAL_AID', 'PAYE', 'AIDS_LEVY', 'FUNERAL', 'LOAN',
+    'BASIC', 'ALLOWANCE', 'HOUSE_ALLOW', 'BONUS', 'LOAN_INT', 'OVERTIME', 'COLA', 'BACKPAY',
+    'NSSA', 'NEC', 'MEDICAL_AID', 'PAYE', 'AIDS_LEVY', 'FUNERAL', 'LOAN',
 ]
 result = 0.0
 for _code in _net_codes:

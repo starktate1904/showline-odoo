@@ -30,16 +30,36 @@
                 <setting string="Zimbabwe NEC" id="zimbabwe_nec_settings" help="National Employment Council contribution parameters">
                     <div class="row mt8">
                         <div class="col-12 col-lg-4">
-                            <label for="zimbabwe_nec_employee_pct">Employee Contribution (%)</label>
-                            <field name="zimbabwe_nec_employee_pct"/>
+                            <label for="zimbabwe_nec_total_pct">General Percentage (%)</label>
+                            <field name="zimbabwe_nec_total_pct"/>
                         </div>
                         <div class="col-12 col-lg-4">
+                            <label for="zimbabwe_nec_employee_split">Employee Split (%)</label>
+                            <field name="zimbabwe_nec_employee_split"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <label for="zimbabwe_nec_employer_split">Employer Split (%)</label>
+                            <field name="zimbabwe_nec_employer_split"/>
+                        </div>
+                        <div class="col-12 col-lg-6 mt8">
                             <label for="zimbabwe_nec_ceiling">Ceiling</label>
                             <field name="zimbabwe_nec_ceiling"/>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12 col-lg-6 mt8">
                             <label for="zimbabwe_nec_cap">Cap Amount</label>
                             <field name="zimbabwe_nec_cap"/>
+                        </div>
+                    </div>
+                </setting>
+                <setting string="Zimbabwe ZIMDEF" id="zimbabwe_zimdef_settings" help="Zimbabwe Manpower Development Fund contribution parameters">
+                    <div class="row mt8">
+                        <div class="col-12 col-lg-6">
+                            <label for="zimbabwe_zimdef_basic_pct">Basic Salary Contribution (%)</label>
+                            <field name="zimbabwe_zimdef_basic_pct"/>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <label for="zimbabwe_zimdef_contrib_pct">Additional Contributions (%)</label>
+                            <field name="zimbabwe_zimdef_contrib_pct"/>
                         </div>
                     </div>
                 </setting>

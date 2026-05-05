@@ -35,6 +35,20 @@
                         class="btn-secondary"
                         invisible="not id"
                     />
+                    <button
+                        name="action_open_nec_report_pdf"
+                        type="object"
+                        string="NEC Report"
+                        class="btn-secondary"
+                        invisible="not id"
+                    />
+                    <button
+                        name="action_open_zimdef_report_pdf"
+                        type="object"
+                        string="ZIMDEF Report"
+                        class="btn-secondary"
+                        invisible="not id"
+                    />
                 </header>
             </xpath>
         </field>
@@ -68,6 +82,18 @@
                     name="action_open_run_zimra_itf_report_pdf"
                     type="object"
                     string="ZIMRA ITF Report"
+                    class="btn-secondary"
+                />
+                <button
+                    name="action_open_run_nec_report_pdf"
+                    type="object"
+                    string="NEC Report"
+                    class="btn-secondary"
+                />
+                <button
+                    name="action_open_run_zimdef_report_pdf"
+                    type="object"
+                    string="ZIMDEF Report"
                     class="btn-secondary"
                 />
             </xpath>

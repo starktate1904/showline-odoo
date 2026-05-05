@@ -14,6 +14,36 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="zimbabwe_payroll.nssa_employer_pct",
         default=4.5,
     )
+    
+    zimbabwe_nec_total_pct = fields.Float(
+        string="NEC Total Contribution (%)",
+        config_parameter="zimbabwe_payroll.nec_total_pct",
+        default=2.5,
+    )
+    
+    zimbabwe_nec_employee_split = fields.Float(
+        string="NEC Employee Split (%)",
+        config_parameter="zimbabwe_payroll.nec_employee_split",
+        default=50.0,
+    )
+    
+    zimbabwe_nec_employer_split = fields.Float(
+        string="NEC Employer Split (%)",
+        config_parameter="zimbabwe_payroll.nec_employer_split",
+        default=50.0,
+    )
+
+    zimbabwe_zimdef_basic_pct = fields.Float(
+        string="ZIMDEF Basic Salary Contribution (%)",
+        config_parameter="zimbabwe_payroll.zimdef_basic_pct",
+        default=1.0,
+    )
+    
+    zimbabwe_zimdef_contrib_pct = fields.Float(
+        string="ZIMDEF Additional Contributions (%)",
+        config_parameter="zimbabwe_payroll.zimdef_contrib_pct",
+        default=1.0,
+    )
     zimbabwe_nssa_ceiling = fields.Float(
         string="NSSA Pensionable Ceiling",
         config_parameter="zimbabwe_payroll.nssa_ceiling",

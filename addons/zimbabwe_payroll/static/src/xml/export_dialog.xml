@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="zimbabwe_payroll.ExportDialog" owl="1">
+        <div class="o_zimbabwe_payroll_modal_overlay d-flex align-items-center justify-content-center">
+            <div class="o_zimbabwe_payroll_modal shadow-lg">
+                <div class="modal-header bg-primary text-white border-bottom-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <h4 class="modal-title fw-bold m-0" t-esc="title"/>
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close" t-on-click="closeDialog"></button>
+                </div>
+                
+                <div class="modal-body p-4 text-center">
+                    <t t-if="!state.isGenerating">
+                        <p class="text-muted mb-4 fs-6">Choose your preferred export format below.</p>
+                        
+                        <div class="d-flex gap-3 justify-content-center">
+                            <div class="format-card pdf-card" t-on-click="() => this.download('pdf')">
+                                <div class="icon-wrapper">
+                                    <i class="fa fa-file-pdf-o text-danger fs-1"></i>
+                                </div>
+                                <h5 class="mt-3 fw-bold">PDF Format</h5>
+                                <span class="badge bg-light text-dark border mt-1">Professional Layout</span>
+                            </div>
+                            
+                            <div class="format-card excel-card" t-on-click="() => this.download('excel')">
+                                <div class="icon-wrapper">
+                                    <i class="fa fa-file-excel-o text-success fs-1"></i>
+                                </div>
+                                <h5 class="mt-3 fw-bold">Excel Format</h5>
+                                <span class="badge bg-light text-dark border mt-1">Data Analysis</span>
+                            </div>
+                        </div>
+                    </t>
+                    
+                    <t t-if="state.isGenerating">
+                        <div class="generating-container py-4">
+                            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h5 class="mt-4 fw-bold text-primary">Generating Document...</h5>
+                            <p class="text-muted small">Please wait while we prepare your <t t-esc="state.selectedFormat.toUpperCase()"/> report.</p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
