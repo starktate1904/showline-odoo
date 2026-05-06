@@ -1,0 +1,28 @@
+# Zimbabwe Payroll Report Fix TODO
+
+- [x] Analyze export/report issue scope and identify root causes.
+- [ ] Update `controllers/payroll_controller.py`
+  - [ ] Fix `export_report` routing so `format=excel` works for `summary_breakdown` and `detailed_breakdown`.
+  - [ ] Ensure single deterministic branch per report type (remove unreachable duplicate branches).
+  - [ ] Add/verify `_export_summary_breakdown_excel(pay_run)` implementation.
+  - [ ] Add/verify `_export_detailed_breakdown_excel(pay_run)` implementation.
+  - [ ] Implement NSSA P4 excel data/export with requested columns:
+    - surname, first name, start date, end date
+    - total insurable earnings
+    - current contribution
+    - arrears
+    - prepayments
+    - surcharge
+    - total payment
+    - employer payment
+- [ ] Update currency rendering consistency in templates
+  - [ ] `views/detailed_breakdown_template.xml`
+  - [ ] `views/salary_summary_template.xml`
+  - [ ] `views/summary_breakdown_template.xml`
+  - [ ] `views/nssa_report_template.xml`
+  - [ ] any other payroll report templates with amount fields missing monetary widget/currency.
+- [ ] Run/verify
+  - [ ] Python syntax check on updated controller file.
+  - [ ] Restart Odoo container
+  - [ ] Upgrade `zimbabwe_payroll` module
+  - [ ] Validate PDF/Excel URLs and currency display in reports.

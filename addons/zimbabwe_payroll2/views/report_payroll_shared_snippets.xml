@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="payroll_report_company_header">
+        <div class="zw-report-header">
+            <div class="zw-header-logo">
+                <img t-if="company.logo" class="zw-company-logo" t-att-src="image_data_uri(company.logo)"/>
+            </div>
+            <div class="zw-header-company">
+                <div class="zw-company-name">
+                    <span t-field="company.name"/>
+                </div>
+                <div t-if="company.street or company.street2">
+                    <span t-field="company.street"/>
+                    <t t-if="company.street2">, <span t-field="company.street2"/></t>
+                </div>
+                <div t-if="company.city or company.zip">
+                    <span t-field="company.city"/> <span t-field="company.zip"/>
+                </div>
+                <div t-if="company.country_id">
+                    <span t-field="company.country_id"/>
+                </div>
+                <div t-if="company.phone or company.email or company.website">
+                    <t t-if="company.phone"><span t-field="company.phone"/></t>
+                    <t t-if="company.phone and (company.email or company.website)"> | </t>
+                    <t t-if="company.email"><span t-field="company.email"/></t>
+                    <t t-if="company.email and company.website"> | </t>
+                    <t t-if="company.website"><span t-field="company.website"/></t>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

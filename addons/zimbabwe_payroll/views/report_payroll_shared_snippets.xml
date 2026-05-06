@@ -1,27 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Reusable header for run-based PDFs (single block, no external_layout repeat) -->
-    <template id="payroll_report_company_header">
-        <div class="zw-doc-header">
-            <div class="zw-doc-header-inner">
-                <div class="zw-doc-logo">
-                    <img t-if="company.logo" class="zw-doc-logo-img" t-att-src="image_data_uri(company.logo)"/>
-                </div>
-                <div class="zw-doc-company">
-                    <div class="zw-doc-company-name">
-                        <span t-field="company.name"/>
-                    </div>
-                    <div class="zw-doc-meta" t-if="company.street or company.street2">
-                        <span t-field="company.street"/><t t-if="company.street2">, <span t-field="company.street2"/></t>
-                    </div>
-                    <div class="zw-doc-meta" t-if="company.city or company.zip">
-                        <span t-field="company.city"/> <span t-field="company.zip"/>
-                    </div>
-                    <div class="zw-doc-meta" t-if="company.country_id">
-                        <span t-field="company.country_id"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
 </odoo>

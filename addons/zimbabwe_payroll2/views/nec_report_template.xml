@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_nec_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="zimbabwe_payroll.zw_report_minimal_wrap">
+                    <t t-set="company" t-value="run.company_id"/>
+                    <t t-set="nec" t-value="(data or {}).get('nec', {})"/>
+                    <t t-call="zimbabwe_payroll.payroll_report_company_header"/>
+
+                    <div class="zw-report-title">NEC Payment Report</div>
+                    <div class="zw-report-subtitle">Pay run: <span t-out="run.name"/> • Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/></div>
+
+                    <div class="zw-card-grid">
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Employees</div>
+                            <div class="zw-card-value"><span t-out="len(nec.get('employees', []))"/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Total NEC base</div>
+                            <div class="zw-card-value"><span t-out="nec.get('totals', {}).get('earnings_base', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Employee contribution</div>
+                            <div class="zw-card-value"><span t-out="nec.get('totals', {}).get('employee_nec', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Total NEC payment</div>
+                            <div class="zw-card-value"><span t-out="nec.get('totals', {}).get('total_nec', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                    </div>
+
+                    <table class="zw-table">
+                        <thead>
+                            <tr>
+                                <th class="zw-left">Surname</th>
+                                <th class="zw-left">First Names</th>
+                                <th class="zw-right">Start Date</th>
+                                <th class="zw-right">End Date</th>
+                                <th class="zw-right">NEC Base</th>
+                                <th class="zw-right">Employee</th>
+                                <th class="zw-right">Employer</th>
+                                <th class="zw-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="nec.get('employees', [])" t-as="emp">
+                                <tr t-attf-class="{'zw-alt-row' if emp_index % 2 else ''}">
+                                    <td class="zw-left"><span t-out="emp.get('surname')"/></td>
+                                    <td class="zw-left"><span t-out="emp.get('first_names')"/></td>
+                                    <td class="zw-right"><span t-out="emp.get('start_date')"/></td>
+                                    <td class="zw-right"><span t-out="emp.get('end_date')"/></td>
+                                    <td class="zw-right"><span t-out="emp.get('earnings_base')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('employee_nec')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('employer_nec')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('total_nec')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr class="zw-total-row">
+                                <td colspan="4" class="zw-left">Grand Totals</td>
+                                <td class="zw-right"><span t-out="nec.get('totals', {}).get('earnings_base', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="nec.get('totals', {}).get('employee_nec', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="nec.get('totals', {}).get('employer_nec', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="nec.get('totals', {}).get('total_nec', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_nec" model="ir.actions.report">
+        <field name="name">NEC Report</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_nec_document</field>
+        <field name="report_file">zimbabwe_payroll.report_nec_document</field>
+    </record>
+</odoo>

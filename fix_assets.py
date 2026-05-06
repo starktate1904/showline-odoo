@@ -1,0 +1,5 @@
+env['ir.attachment'].search([('url', '=like', '/web/content/%')]).unlink()
+env['ir.attachment'].search([('name', '=like', '%.css')]).unlink()
+env['ir.attachment'].search([('name', '=like', '%.js')]).unlink()
+env.registry.clear_cache()
+print("Assets cleared successfully!")

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_summary_breakdown_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-set="payload" t-value="(data or {}).get('summary_breakdown', {})"/>
+                        <t t-set="employees" t-value="payload.get('employees', [])"/>
+                        <t t-set="totals" t-value="payload.get('totals', {})"/>
+
+                        <h2>Summary Salary Breakdown</h2>
+                        <p>
+                            Pay run: <span t-out="run.name"/> -
+                            Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/>
+                        </p>
+
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+                            <thead>
+                                <tr>
+                                    <th style="border:1px solid #ccc; padding:8px; text-align:left;">Employee</th>
+                                    <th style="border:1px solid #ccc; padding:8px; text-align:right;">Gross Salary</th>
+                                    <th style="border:1px solid #ccc; padding:8px; text-align:right;">Total Earnings</th>
+                                    <th style="border:1px solid #ccc; padding:8px; text-align:right;">Total Deductions</th>
+                                    <th style="border:1px solid #ccc; padding:8px; text-align:right;">Net Pay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="employees" t-as="emp">
+                                    <tr>
+                                        <td style="border:1px solid #ccc; padding:8px;">
+                                            <span t-out="emp.get('employee_name')"/>
+                                        </td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <span t-out="emp.get('gross_salary', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                        </td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <span t-out="emp.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                        </td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <span t-out="emp.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                        </td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <span t-out="emp.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td style="border:1px solid #ccc; padding:8px;"><strong>TOTALS</strong></td>
+                                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                        <strong><span t-out="totals.get('gross_salary', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                    </td>
+                                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                        <strong><span t-out="totals.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                    </td>
+                                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                        <strong><span t-out="totals.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                    </td>
+                                    <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                        <strong><span t-out="totals.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_summary_breakdown" model="ir.actions.report">
+        <field name="name">Summary Salary Breakdown</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_summary_breakdown_document</field>
+        <field name="report_file">zimbabwe_payroll.report_summary_breakdown_document</field>
+    </record>
+</odoo>

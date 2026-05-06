@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_salary_summary_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="zimbabwe_payroll.zw_report_minimal_wrap">
+                    <t t-set="company" t-value="run.company_id"/>
+                    <t t-set="summary" t-value="(data or {}).get('summary', {})"/>
+                    <t t-call="zimbabwe_payroll.payroll_report_company_header"/>
+
+                    <div class="zw-report-subtitle">Pay run: <span t-out="run.name"/> • Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/></div>
+                    
+                    <div class="zw-card-grid">
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Basic salary total</div>
+                            <div class="zw-card-value">
+                                <span t-out="summary.get('basic_salary', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                            </div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Gross wage total</div>
+                            <div class="zw-card-value">
+                                <span t-out="summary.get('gross_wage', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                            </div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Net pay total</div>
+                            <div class="zw-card-value">
+                                <span t-out="summary.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                            </div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Employer costs</div>
+                            <div class="zw-card-value">
+                                <span t-out="summary.get('employer_costs', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="zw-table">
+                        <thead>
+                            <tr>
+                                <th class="zw-left">Description</th>
+                                <th class="zw-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="zw-left">Total basic salary</td>
+                                <td class="zw-right"><span t-out="summary.get('basic_salary', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                            <tr>
+                                <td class="zw-left">Total gross wage</td>
+                                <td class="zw-right"><span t-out="summary.get('gross_wage', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                            <tr class="zw-net-row">
+                                <td class="zw-left">Total net pay</td>
+                                <td class="zw-right"><span t-out="summary.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                            <tr>
+                                <td class="zw-left">Total earnings</td>
+                                <td class="zw-right"><span t-out="summary.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                            <tr>
+                                <td class="zw-left">Total deductions</td>
+                                <td class="zw-right"><span t-out="summary.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                            <tr class="zw-total-row">
+                                <td class="zw-left">Employer costs</td>
+                                <td class="zw-right"><span t-out="summary.get('employer_costs', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_salary_summary" model="ir.actions.report">
+        <field name="name">Salary Summary</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_salary_summary_document</field>
+        <field name="report_file">zimbabwe_payroll.report_salary_summary_document</field>
+    </record>
+</odoo>

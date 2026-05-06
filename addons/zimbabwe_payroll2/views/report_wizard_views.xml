@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zimbabwe_payroll_report_wizard_form" model="ir.ui.view">
+        <field name="name">zimbabwe.payroll.report.wizard.form</field>
+        <field name="model">zimbabwe.payroll.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Payroll Report">
+                <group>
+                    <field name="pay_run_id" options="{'no_create': True}"/>
+                    <field name="report_type" invisible="1"/>
+                    <field name="format" invisible="report_type in ('salary_breakdown', 'salary_summary')" widget="radio" options="{'horizontal': True}"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_salary_breakdown_wizard" model="ir.actions.act_window">
+        <field name="name">Salary Breakdown</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'salary_breakdown', 'default_format': 'pdf'}</field>
+    </record>
+
+    <record id="action_salary_summary_wizard" model="ir.actions.act_window">
+        <field name="name">Salary Summary</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'salary_summary', 'default_format': 'pdf'}</field>
+    </record>
+
+    <record id="action_nssa_report_wizard" model="ir.actions.act_window">
+        <field name="name">NSSA Report</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'nssa'}</field>
+    </record>
+
+    <record id="action_zimra_itf_report_wizard" model="ir.actions.act_window">
+        <field name="name">ZIMRA ITF Report</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'zimra_itf'}</field>
+    </record>
+
+    <record id="action_nec_report_wizard" model="ir.actions.act_window">
+        <field name="name">NEC Report</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'nec'}</field>
+    </record>
+
+    <record id="action_zimdef_report_wizard" model="ir.actions.act_window">
+        <field name="name">ZIMDEF Report</field>
+        <field name="res_model">zimbabwe.payroll.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'zimdef'}</field>
+    </record>
+
+    <!-- Menus under hr_payroll.menu_hr_payroll_report -->
+    <menuitem id="menu_report_salary_breakdown"
+              name="Salary Breakdown"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_salary_breakdown_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_report_salary_summary"
+              name="Salary Summary"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_salary_summary_wizard"
+              sequence="11"/>
+
+    <menuitem id="menu_report_nssa"
+              name="NSSA Report"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_nssa_report_wizard"
+              sequence="12"/>
+
+    <menuitem id="menu_report_zimra_itf"
+              name="ZIMRA ITF Report"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_zimra_itf_report_wizard"
+              sequence="13"/>
+
+    <menuitem id="menu_report_nec"
+              name="NEC Report"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_nec_report_wizard"
+              sequence="14"/>
+
+    <menuitem id="menu_report_zimdef"
+              name="ZIMDEF Report"
+              parent="hr_payroll.menu_hr_payroll_report"
+              action="action_zimdef_report_wizard"
+              sequence="15"/>
+</odoo>

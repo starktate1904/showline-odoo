@@ -17,10 +17,7 @@
         'views/report_payslip_template.xml',
         'views/salary_breakdown_template.xml',
         'views/salary_summary_template.xml',
-        'views/detailed_breakdown_template.xml',
-        'views/summary_breakdown_template.xml',
         'views/nssa_report_template.xml',
-        'views/nssa_p4_report_template.xml',
         'views/zimra_itf_report_template.xml',
         'views/nec_report_template.xml',
         'views/zimdef_report_template.xml',
@@ -32,6 +29,12 @@
             'zimbabwe_payroll/static/src/scss/export_dialog.scss',
             'zimbabwe_payroll/static/src/xml/export_dialog.xml',
             'zimbabwe_payroll/static/src/js/export_dialog.js',
+        ],
+        'web.report_assets_common': [
+            'zimbabwe_payroll/static/src/scss/report_styles.scss',
+        ],
+        'web.report_assets_pdf': [
+            'zimbabwe_payroll/static/src/scss/report_styles.scss',
         ],
     },
     'installable': True,

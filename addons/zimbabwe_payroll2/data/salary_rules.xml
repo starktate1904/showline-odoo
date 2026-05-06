@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="structure_zimbabwe_payroll" model="hr.payroll.structure">
+            <field name="name">Zimbabwe Payroll Structure</field>
+            <field name="type_id" ref="hr.structure_type_employee"/>
+            <field name="country_id" eval="False"/>
+            <field name="rule_ids" eval="[]"/>
+        </record>
+
+        <!-- Seq 100: Basic Salary -->
+        <record id="rule_basic_salary" model="hr.salary.rule">
+            <field name="name">Basic Salary</field>
+            <field name="code">BASIC</field>
+            <field name="sequence">100</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip.version_id.contract_wage if payslip.version_id else 0.0</field>
+        </record>
+
+        <!-- Seq 200: Allowance -->
+        <record id="rule_allowance" model="hr.salary.rule">
+            <field name="name">Allowance</field>
+            <field name="code">ALLOWANCE</field>
+            <field name="sequence">200</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('ALLOWANCE')</field>
+        </record>
+
+        <!-- Seq 210: House Allowance -->
+        <record id="rule_house_allowance" model="hr.salary.rule">
+            <field name="name">House Allowance</field>
+            <field name="code">HOUSE_ALLOW</field>
+            <field name="sequence">210</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('HOUSE_ALLOW')</field>
+        </record>
+
+        <!-- Seq 220: Bonus -->
+        <record id="rule_bonus" model="hr.salary.rule">
+            <field name="name">Bonus</field>
+            <field name="code">BONUS</field>
+            <field name="sequence">220</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_bonus"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('BONUS')</field>
+        </record>
+
+        <!-- Seq 230: Loan Interest Income -->
+        <record id="rule_loan_interest_income" model="hr.salary.rule">
+            <field name="name">Loan Interest Income</field>
+            <field name="code">LOAN_INT</field>
+            <field name="sequence">230</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('LOAN_INT')</field>
+        </record>
+
+        <!-- Seq 231: Overtime -->
+        <record id="rule_overtime" model="hr.salary.rule">
+            <field name="name">Overtime</field>
+            <field name="code">OVERTIME</field>
+            <field name="sequence">231</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('OVERTIME')</field>
+        </record>
+
+        <!-- Seq 232: Cost of Living (COLA) -->
+        <record id="rule_cola" model="hr.salary.rule">
+            <field name="name">Cost of Living (COLA)</field>
+            <field name="code">COLA</field>
+            <field name="sequence">232</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('COLA')</field>
+        </record>
+
+        <!-- Seq 233: Backpay -->
+        <record id="rule_backpay" model="hr.salary.rule">
+            <field name="name">Backpay</field>
+            <field name="code">BACKPAY</field>
+            <field name="sequence">233</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('BACKPAY')</field>
+        </record>
+
+        <!-- Seq 300: Gross Taxable Income -->
+        <record id="rule_gross_taxable" model="hr.salary.rule">
+            <field name="name">Gross Taxable Income</field>
+            <field name="code">GROSS_TAXABLE</field>
+            <field name="sequence">300</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['TAXABLE'] + categories['BONUS']</field>
+        </record>
+
+        <!-- Seq 301: Gross for Odoo payslip gross_wage (code GROSS) -->
+        <record id="rule_gross_reporting" model="hr.salary.rule">
+            <field name="name">Gross Taxable (reporting)</field>
+            <field name="code">GROSS</field>
+            <field name="sequence">301</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = result_rules['GROSS_TAXABLE']['total']</field>
+        </record>
+
+        <!-- Seq 400: NSSA -->
+        <record id="rule_nssa" model="hr.salary.rule">
+            <field name="name">NSSA Contribution</field>
+            <field name="code">NSSA</field>
+            <field name="sequence">400</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_nssa"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_ceiling', '700'))
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_employee_pct', '4.5'))
+cap = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_employee_cap', '0'))
+basic = result_rules['BASIC']['total'] or (payslip.version_id.contract_wage if payslip.version_id else 0.0)
+pensionable = min(basic, ceiling) if ceiling > 0 else basic
+deduction = pensionable * pct / 100.0
+if cap > 0:
+    deduction = min(deduction, cap)
+result = -deduction
+]]></field>
+        </record>
+
+        <!-- Seq 401: NSSA (Employer Portion) -->
+        <record id="rule_nssa_er" model="hr.salary.rule">
+            <field name="name">NSSA Employer Contribution</field>
+            <field name="code">NSSA_ER</field>
+            <field name="sequence">401</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_ceiling', '700'))
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nssa_employer_pct', '4.5'))
+basic = result_rules['BASIC']['total'] or (payslip.version_id.contract_wage if payslip.version_id else 0.0)
+pensionable = min(basic, ceiling) if ceiling > 0 else basic
+result = (pensionable * pct / 100.0)
+]]></field>
+        </record>
+
+        <!-- Seq 410: NEC -->
+        <record id="rule_nec" model="hr.salary.rule">
+            <field name="name">NEC Contribution</field>
+            <field name="code">NEC</field>
+            <field name="sequence">410</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_nec"/>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+total_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_total_pct', '2.5'))
+emp_split = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employee_split', '50.0'))
+pct = total_pct * (emp_split / 100.0)
+basic = result_rules['BASIC']['total'] if 'BASIC' in result_rules else 0.0
+overtime = result_rules['OVERTIME']['total'] if 'OVERTIME' in result_rules else 0.0
+cola = result_rules['COLA']['total'] if 'COLA' in result_rules else 0.0
+backpay = result_rules['BACKPAY']['total'] if 'BACKPAY' in result_rules else 0.0
+pensionable = basic + overtime + cola + backpay
+result = -(pensionable * pct / 100.0)
+]]></field>
+        </record>
+
+        <!-- Seq 411: NEC (Employer Portion) -->
+        <record id="rule_nec_er" model="hr.salary.rule">
+            <field name="name">NEC Employer Contribution</field>
+            <field name="code">NEC_ER</field>
+            <field name="sequence">411</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+total_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_total_pct', '2.5'))
+er_split = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.nec_employer_split', '50.0'))
+pct = total_pct * (er_split / 100.0)
+basic = result_rules['BASIC']['total'] if 'BASIC' in result_rules else 0.0
+overtime = result_rules['OVERTIME']['total'] if 'OVERTIME' in result_rules else 0.0
+cola = result_rules['COLA']['total'] if 'COLA' in result_rules else 0.0
+backpay = result_rules['BACKPAY']['total'] if 'BACKPAY' in result_rules else 0.0
+pensionable = basic + overtime + cola + backpay
+result = (pensionable * pct / 100.0)
+]]></field>
+        </record>
+
+        <!-- Seq 420: ZIMDEF -->
+        <record id="rule_zimdef" model="hr.salary.rule">
+            <field name="name">ZIMDEF Contribution</field>
+            <field name="code">ZIMDEF</field>
+            <field name="sequence">420</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+basic_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.zimdef_basic_pct', '1.0'))
+contrib_pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.zimdef_contrib_pct', '1.0'))
+gross = result_rules['GROSS']['total'] if 'GROSS' in result_rules else 0.0
+nssa = abs(result_rules['NSSA']['total']) if 'NSSA' in result_rules else 0.0
+nec = abs(result_rules['NEC']['total']) if 'NEC' in result_rules else 0.0
+result = ((gross * basic_pct / 100.0) + ((nssa + nec) * contrib_pct / 100.0))
+]]></field>
+        </record>
+
+        <!-- Seq 430: Medical Aid -->
+        <record id="rule_medical_aid" model="hr.salary.rule">
+            <field name="name">Medical Aid</field>
+            <field name="code">MEDICAL_AID</field>
+            <field name="sequence">430</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_medical_aid"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('MEDICAL_AID')</field>
+        </record>
+
+        <!-- Seq 500: Total Allowable Deductions -->
+        <record id="rule_total_allowable_deductions" model="hr.salary.rule">
+            <field name="name">Total Allowable Deductions</field>
+            <field name="code">TOT_ALLOW_DED</field>
+            <field name="sequence">500</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_allowable_deduction"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['NSSA'] + categories['NEC'] + categories['MED_AID']</field>
+        </record>
+
+        <!-- Seq 600: Taxable Income -->
+        <record id="rule_taxable_income" model="hr.salary.rule">
+            <field name="name">Taxable Income</field>
+            <field name="code">TAXABLE_INC</field>
+            <field name="sequence">600</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+gross = result_rules['GROSS_TAXABLE']['total']
+allowable = abs(categories['ALLOW_DED'])
+result = max(gross - allowable, 0)
+]]></field>
+        </record>
+
+        <!-- Seq 700: Medical Aid Tax Credit -->
+        <record id="rule_medical_credit" model="hr.salary.rule">
+            <field name="name">Medical Aid Tax Credit</field>
+            <field name="code">MED_CREDIT</field>
+            <field name="sequence">700</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.medical_aid_tax_credit_pct', '50'))
+ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.medical_aid_credit_ceiling', '1000'))
+med_aid_paid = abs(categories['MED_AID'])
+credit = med_aid_paid * pct / 100.0
+result = min(credit, ceiling)
+]]></field>
+        </record>
+
+        <!-- Seq 710: Blind Tax Credit -->
+        <record id="rule_blind_credit" model="hr.salary.rule">
+            <field name="name">Blind Person Tax Credit</field>
+            <field name="code">BLIND_CREDIT</field>
+            <field name="sequence">710</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_blind', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_blind</field>
+        </record>
+
+        <!-- Seq 720: Elderly Tax Credit -->
+        <record id="rule_elderly_credit" model="hr.salary.rule">
+            <field name="name">Elderly Tax Credit (65+)</field>
+            <field name="code">ELDERLY_CREDIT</field>
+            <field name="sequence">720</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_elderly', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_over_65</field>
+        </record>
+
+        <!-- Seq 730: Disabled Tax Credit -->
+        <record id="rule_disabled_credit" model="hr.salary.rule">
+            <field name="name">Disabled Person Tax Credit</field>
+            <field name="code">DISABLED_CREDIT</field>
+            <field name="sequence">730</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_disabled', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_disabled</field>
+        </record>
+
+        <!-- Seq 790: Total Tax Credits -->
+        <record id="rule_total_tax_credits" model="hr.salary.rule">
+            <field name="name">Total Tax Credits</field>
+            <field name="code">TOT_CREDITS</field>
+            <field name="sequence">790</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['TAX_CREDIT']</field>
+        </record>
+
+        <!-- Seq 800: PAYE -->
+        <record id="rule_paye" model="hr.salary.rule">
+            <field name="name">PAYE (Income Tax)</field>
+            <field name="code">PAYE</field>
+            <field name="sequence">800</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_paye"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+taxable = result_rules['TAXABLE_INC']['total']
+currency = payslip.currency_id or payslip.env.company.currency_id
+table = payslip.env['zimra.tax.table'].search([
+    ('currency_id', '=', currency.id),
+    ('frequency', '=', 'monthly'),
+    ('min_income', '<=', taxable),
+    '|', ('max_income', '>=', taxable), ('max_income', '=', 0),
+    ('active', '=', True),
+], limit=1, order='effective_date desc, min_income desc')
+if table:
+    tax_before_credits = max((taxable * table.rate / 100.0) - table.deduction, 0)
+    final_tax = max(tax_before_credits - result_rules['TOT_CREDITS']['total'], 0)
+    result = -final_tax
+else:
+    result = 0
+]]></field>
+        </record>
+
+        <!-- Seq 900: AIDS Levy -->
+        <record id="rule_aids_levy" model="hr.salary.rule">
+            <field name="name">AIDS Levy</field>
+            <field name="code">AIDS_LEVY</field>
+            <field name="sequence">900</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_aids_levy"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.aids_levy_pct', '3.0'))
+paye_amount = abs(result_rules['PAYE']['total'])
+result = -(paye_amount * pct / 100.0)
+]]></field>
+        </record>
+
+        <!-- Seq 1000: Funeral Policy -->
+        <record id="rule_funeral" model="hr.salary.rule">
+            <field name="name">Funeral Policy</field>
+            <field name="code">FUNERAL</field>
+            <field name="sequence">1000</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_funeral"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('FUNERAL')</field>
+        </record>
+
+        <!-- Seq 1010: Loan Repayment -->
+        <record id="rule_loan" model="hr.salary.rule">
+            <field name="name">Loan Repayment</field>
+            <field name="code">LOAN</field>
+            <field name="sequence">1010</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="category_loan"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('LOAN')</field>
+        </record>
+
+        <!-- Seq 1100: Net pay (Odoo uses code NET for net_wage and PDF "Amount to be paid") -->
+        <record id="rule_net_salary" model="hr.salary.rule">
+            <field name="name">Net Pay</field>
+            <field name="code">NET</field>
+            <field name="sequence">1100</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll"/>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+# Sum only "cash" components; exclude subtotals (GROSS_TAXABLE, TOT_ALLOW_DED, TAXABLE_INC, credits, etc.)
+_net_codes = [
+    'BASIC', 'ALLOWANCE', 'HOUSE_ALLOW', 'BONUS', 'LOAN_INT', 'OVERTIME', 'COLA', 'BACKPAY',
+    'NSSA', 'NEC', 'MEDICAL_AID', 'PAYE', 'AIDS_LEVY', 'FUNERAL', 'LOAN',
+]
+result = 0.0
+for _code in _net_codes:
+    if _code in result_rules:
+        result += result_rules[_code]['total']
+]]></field>
+        </record>
+
+    </data>
+
+    <!-- Same Zimbabwe logic but without NSSA, NEC, or ZIMDEF (e.g. employees exempt / not in scope) -->
+    <data noupdate="0">
+
+        <record id="structure_zimbabwe_payroll_no_nssa_nec_zimdef" model="hr.payroll.structure">
+            <field name="name">Zimbabwe Payroll (no NSSA / NEC / ZIMDEF)</field>
+            <field name="type_id" ref="hr.structure_type_employee"/>
+            <field name="country_id" eval="False"/>
+            <field name="rule_ids" eval="[]"/>
+        </record>
+
+        <record id="nst_rule_basic_salary" model="hr.salary.rule">
+            <field name="name">Basic Salary</field>
+            <field name="code">BASIC</field>
+            <field name="sequence">100</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip.version_id.contract_wage if payslip.version_id else 0.0</field>
+        </record>
+
+        <record id="nst_rule_allowance" model="hr.salary.rule">
+            <field name="name">Allowance</field>
+            <field name="code">ALLOWANCE</field>
+            <field name="sequence">200</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('ALLOWANCE')</field>
+        </record>
+
+        <record id="nst_rule_house_allowance" model="hr.salary.rule">
+            <field name="name">House Allowance</field>
+            <field name="code">HOUSE_ALLOW</field>
+            <field name="sequence">210</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('HOUSE_ALLOW')</field>
+        </record>
+
+        <record id="nst_rule_bonus" model="hr.salary.rule">
+            <field name="name">Bonus</field>
+            <field name="code">BONUS</field>
+            <field name="sequence">220</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_bonus"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('BONUS')</field>
+        </record>
+
+        <record id="nst_rule_loan_interest_income" model="hr.salary.rule">
+            <field name="name">Loan Interest Income</field>
+            <field name="code">LOAN_INT</field>
+            <field name="sequence">230</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._get_input_line_amount('LOAN_INT')</field>
+        </record>
+
+        <record id="nst_rule_gross_taxable" model="hr.salary.rule">
+            <field name="name">Gross Taxable Income</field>
+            <field name="code">GROSS_TAXABLE</field>
+            <field name="sequence">300</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_taxable_income"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['TAXABLE'] + categories['BONUS']</field>
+        </record>
+
+        <record id="nst_rule_gross_reporting" model="hr.salary.rule">
+            <field name="name">Gross Taxable (reporting)</field>
+            <field name="code">GROSS</field>
+            <field name="sequence">301</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = result_rules['GROSS_TAXABLE']['total']</field>
+        </record>
+
+        <!-- NSSA, NEC, ZIMDEF intentionally omitted -->
+
+        <record id="nst_rule_medical_aid" model="hr.salary.rule">
+            <field name="name">Medical Aid</field>
+            <field name="code">MEDICAL_AID</field>
+            <field name="sequence">430</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_medical_aid"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('MEDICAL_AID')</field>
+        </record>
+
+        <record id="nst_rule_total_allowable_deductions" model="hr.salary.rule">
+            <field name="name">Total Allowable Deductions</field>
+            <field name="code">TOT_ALLOW_DED</field>
+            <field name="sequence">500</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_allowable_deduction"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['NSSA'] + categories['NEC'] + categories['ZIMDEF'] + categories['MED_AID']</field>
+        </record>
+
+        <record id="nst_rule_taxable_income" model="hr.salary.rule">
+            <field name="name">Taxable Income</field>
+            <field name="code">TAXABLE_INC</field>
+            <field name="sequence">600</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+gross = result_rules['GROSS_TAXABLE']['total']
+allowable = abs(categories['ALLOW_DED'])
+result = max(gross - allowable, 0)
+]]></field>
+        </record>
+
+        <record id="nst_rule_medical_credit" model="hr.salary.rule">
+            <field name="name">Medical Aid Tax Credit</field>
+            <field name="code">MED_CREDIT</field>
+            <field name="sequence">700</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.medical_aid_tax_credit_pct', '50'))
+ceiling = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.medical_aid_credit_ceiling', '1000'))
+med_aid_paid = abs(categories['MED_AID'])
+credit = med_aid_paid * pct / 100.0
+result = min(credit, ceiling)
+]]></field>
+        </record>
+
+        <record id="nst_rule_blind_credit" model="hr.salary.rule">
+            <field name="name">Blind Person Tax Credit</field>
+            <field name="code">BLIND_CREDIT</field>
+            <field name="sequence">710</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_blind', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_blind</field>
+        </record>
+
+        <record id="nst_rule_elderly_credit" model="hr.salary.rule">
+            <field name="name">Elderly Tax Credit (65+)</field>
+            <field name="code">ELDERLY_CREDIT</field>
+            <field name="sequence">720</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_elderly', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_over_65</field>
+        </record>
+
+        <record id="nst_rule_disabled_credit" model="hr.salary.rule">
+            <field name="name">Disabled Person Tax Credit</field>
+            <field name="code">DISABLED_CREDIT</field>
+            <field name="sequence">730</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.tax_credit_disabled', '75'))
+]]></field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.is_disabled</field>
+        </record>
+
+        <record id="nst_rule_total_tax_credits" model="hr.salary.rule">
+            <field name="name">Total Tax Credits</field>
+            <field name="code">TOT_CREDITS</field>
+            <field name="sequence">790</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_tax_credit"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['TAX_CREDIT']</field>
+        </record>
+
+        <record id="nst_rule_paye" model="hr.salary.rule">
+            <field name="name">PAYE (Income Tax)</field>
+            <field name="code">PAYE</field>
+            <field name="sequence">800</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_paye"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+taxable = result_rules['TAXABLE_INC']['total']
+currency = payslip.currency_id or payslip.env.company.currency_id
+table = payslip.env['zimra.tax.table'].search([
+    ('currency_id', '=', currency.id),
+    ('frequency', '=', 'monthly'),
+    ('min_income', '<=', taxable),
+    '|', ('max_income', '>=', taxable), ('max_income', '=', 0),
+    ('active', '=', True),
+], limit=1, order='effective_date desc, min_income desc')
+if table:
+    tax_before_credits = max((taxable * table.rate / 100.0) - table.deduction, 0)
+    final_tax = max(tax_before_credits - result_rules['TOT_CREDITS']['total'], 0)
+    result = -final_tax
+else:
+    result = 0
+]]></field>
+        </record>
+
+        <record id="nst_rule_aids_levy" model="hr.salary.rule">
+            <field name="name">AIDS Levy</field>
+            <field name="code">AIDS_LEVY</field>
+            <field name="sequence">900</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_aids_levy"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+pct = float(payslip.env['ir.config_parameter'].sudo().get_param('zimbabwe_payroll.aids_levy_pct', '3.0'))
+paye_amount = abs(result_rules['PAYE']['total'])
+result = -(paye_amount * pct / 100.0)
+]]></field>
+        </record>
+
+        <record id="nst_rule_funeral" model="hr.salary.rule">
+            <field name="name">Funeral Policy</field>
+            <field name="code">FUNERAL</field>
+            <field name="sequence">1000</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_funeral"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('FUNERAL')</field>
+        </record>
+
+        <record id="nst_rule_loan" model="hr.salary.rule">
+            <field name="name">Loan Repayment</field>
+            <field name="code">LOAN</field>
+            <field name="sequence">1010</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="category_loan"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -payslip._get_input_line_amount('LOAN')</field>
+        </record>
+
+        <record id="nst_rule_net_salary" model="hr.salary.rule">
+            <field name="name">Net Pay</field>
+            <field name="code">NET</field>
+            <field name="sequence">1100</field>
+            <field name="struct_id" ref="structure_zimbabwe_payroll_no_nssa_nec_zimdef"/>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+_net_codes = [
+    'BASIC', 'ALLOWANCE', 'HOUSE_ALLOW', 'BONUS', 'LOAN_INT',
+    'NSSA', 'NEC', 'ZIMDEF', 'MEDICAL_AID', 'PAYE', 'AIDS_LEVY', 'FUNERAL', 'LOAN',
+]
+result = 0.0
+for _code in _net_codes:
+    if _code in result_rules:
+        result += result_rules[_code]['total']
+]]></field>
+        </record>
+
+    </data>
+</odoo>

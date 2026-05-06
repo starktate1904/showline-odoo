@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_detailed_breakdown_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-set="payload" t-value="(data or {}).get('detailed_breakdown', {})"/>
+                        <t t-set="employees" t-value="payload.get('employees', [])"/>
+
+                        <h2>Detailed Salary Breakdown</h2>
+                        <p>
+                            Pay run: <span t-out="run.name"/> -
+                            Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/>
+                        </p>
+
+                        <t t-foreach="employees" t-as="emp">
+                            <div style="margin-top: 16px; margin-bottom: 8px;">
+                                <strong>EMPLOYEE: <span t-out="emp.get('employee_name')"/></strong>
+                            </div>
+
+                            <table style="width:100%; border-collapse:collapse; margin-bottom:10px;">
+                                <thead>
+                                    <tr>
+                                        <th style="border:1px solid #ccc; padding:8px; text-align:left;">Earnings</th>
+                                        <th style="border:1px solid #ccc; padding:8px; text-align:right;">Amount</th>
+                                        <th style="border:1px solid #ccc; padding:8px; text-align:left;">Deductions</th>
+                                        <th style="border:1px solid #ccc; padding:8px; text-align:right;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="earnings" t-value="emp.get('earnings', [])"/>
+                                    <t t-set="deductions" t-value="emp.get('deductions', [])"/>
+                                    <t t-set="row_count" t-value="max(len(earnings), len(deductions))"/>
+                                    <t t-foreach="range(row_count)" t-as="idx">
+                                        <tr>
+                                            <td style="border:1px solid #ccc; padding:8px;">
+                                                <t t-if="idx &lt; len(earnings)">
+                                                    <span t-out="earnings[idx].get('name')"/>
+                                                </t>
+                                            </td>
+                                            <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                                <t t-if="idx &lt; len(earnings)">
+                                                    <span t-out="earnings[idx].get('amount', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                                </t>
+                                            </td>
+                                            <td style="border:1px solid #ccc; padding:8px;">
+                                                <t t-if="idx &lt; len(deductions)">
+                                                    <span t-out="deductions[idx].get('name')"/>
+                                                </t>
+                                            </td>
+                                            <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                                <t t-if="idx &lt; len(deductions)">
+                                                    <span t-out="deductions[idx].get('amount', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td style="border:1px solid #ccc; padding:8px;"><strong>TOTAL EARNINGS</strong></td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <strong><span t-out="emp.get('total_earnings', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                        </td>
+                                        <td style="border:1px solid #ccc; padding:8px;"><strong>TOTAL DEDUCTIONS</strong></td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <strong><span t-out="emp.get('total_deductions', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border:1px solid #ccc; padding:8px;"><strong>NET PAY</strong></td>
+                                        <td style="border:1px solid #ccc; padding:8px; text-align:right;">
+                                            <strong><span t-out="emp.get('net_pay', 0.0)" t-options='{"widget": "monetary", "display_currency": run.company_id.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="border-top:1px solid #ccc; margin-bottom:10px;"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_detailed_breakdown" model="ir.actions.report">
+        <field name="name">Detailed Salary Breakdown</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_detailed_breakdown_document</field>
+        <field name="report_file">zimbabwe_payroll.report_detailed_breakdown_document</field>
+    </record>
+</odoo>

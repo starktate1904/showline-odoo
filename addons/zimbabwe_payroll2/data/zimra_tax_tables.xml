@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- USD Monthly -->
+        <record id="usd_monthly_1" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">0</field>
+            <field name="max_income">100</field>
+            <field name="rate">0</field>
+            <field name="deduction">0</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+        <record id="usd_monthly_2" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">100.01</field>
+            <field name="max_income">300</field>
+            <field name="rate">20</field>
+            <field name="deduction">20</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+        <record id="usd_monthly_3" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">300.01</field>
+            <field name="max_income">1000</field>
+            <field name="rate">25</field>
+            <field name="deduction">35</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+        <record id="usd_monthly_4" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">1000.01</field>
+            <field name="max_income">2000</field>
+            <field name="rate">30</field>
+            <field name="deduction">85</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+        <record id="usd_monthly_5" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">2000.01</field>
+            <field name="max_income">3000</field>
+            <field name="rate">35</field>
+            <field name="deduction">185</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+        <record id="usd_monthly_6" model="zimra.tax.table">
+            <field name="currency_id" ref="base.USD"/>
+            <field name="frequency">monthly</field>
+            <field name="min_income">3000.01</field>
+            <field name="max_income">0</field>
+            <field name="rate">40</field>
+            <field name="deduction">335</field>
+            <field name="effective_date">2025-01-01</field>
+        </record>
+
+    </data>
+</odoo>

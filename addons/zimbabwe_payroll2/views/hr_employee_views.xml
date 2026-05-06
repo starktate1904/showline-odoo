@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_form_zimbabwe" model="ir.ui.view">
+        <field name="name">hr.employee.form.zimbabwe</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='personal_information']//group[@name='hr_birth_group']" position="inside">
+                <field name="is_blind"/>
+                <field name="is_disabled"/>
+                <field name="is_over_65"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Payroll Breakdown" name="payroll_breakdown" groups="hr_payroll.group_hr_payroll_user">
+                    <group string="Latest validated / paid payslip">
+                        <field name="zimbabwe_latest_payslip_id" readonly="1"/>
+                        <field name="zimbabwe_latest_net_wage" widget="monetary" readonly="1"/>
+                    </group>
+                    <group string="Earnings (latest payslip only)">
+                        <field name="zimbabwe_latest_earning_line_ids" nolabel="1" readonly="1">
+                            <list create="0" delete="0" edit="0" default_order="sequence asc">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="quantity"/>
+                                <field name="rate"/>
+                                <field name="amount"/>
+                                <field name="total"/>
+                                <field name="currency_id" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Deductions (latest payslip only)">
+                        <field name="zimbabwe_latest_deduction_line_ids" nolabel="1" readonly="1">
+                            <list create="0" delete="0" edit="0" default_order="sequence asc">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="quantity"/>
+                                <field name="rate"/>
+                                <field name="amount"/>
+                                <field name="total"/>
+                                <field name="currency_id" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

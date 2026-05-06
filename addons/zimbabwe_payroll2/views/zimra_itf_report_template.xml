@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_zimra_itf_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="run">
+                <t t-call="zimbabwe_payroll.zw_report_minimal_wrap">
+                    <t t-set="company" t-value="run.company_id"/>
+                    <t t-set="zimra" t-value="(data or {}).get('zimra', {})"/>
+                    <t t-call="zimbabwe_payroll.payroll_report_company_header"/>
+
+                    <div class="zw-report-title">ZIMRA ITF16 Report</div>
+                    <div class="zw-report-subtitle">Pay run: <span t-out="run.name"/> • Period: <span t-out="run.date_start"/> to <span t-out="run.date_end"/></div>
+
+                    <div class="zw-card-grid">
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Employees</div>
+                            <div class="zw-card-value"><span t-out="len(zimra.get('employees', []))"/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Total gross pay</div>
+                            <div class="zw-card-value"><span t-out="zimra.get('totals', {}).get('gross', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Total PAYE</div>
+                            <div class="zw-card-value"><span t-out="zimra.get('totals', {}).get('paye', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                        <div class="zw-card-item">
+                            <div class="zw-card-label">Total tax due</div>
+                            <div class="zw-card-value"><span t-out="zimra.get('totals', {}).get('total_tax_due', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></div>
+                        </div>
+                    </div>
+
+                    <table class="zw-table">
+                        <thead>
+                            <tr>
+                                <th class="zw-left">ID</th>
+                                <th class="zw-left">Surname</th>
+                                <th class="zw-left">First Name</th>
+                                <th class="zw-right">Basic Pension</th>
+                                <th class="zw-right">Gross Pay</th>
+                                <th class="zw-right">PAYE</th>
+                                <th class="zw-right">AIDS Levy</th>
+                                <th class="zw-right">Total Tax</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="zimra.get('employees', [])" t-as="emp">
+                                <tr t-attf-class="{'zw-alt-row' if emp_index % 2 else ''}">
+                                    <td class="zw-left"><span t-out="emp.get('employee_id')"/></td>
+                                    <td class="zw-left"><span t-out="emp.get('surname')"/></td>
+                                    <td class="zw-left"><span t-out="emp.get('first_names')"/></td>
+                                    <td class="zw-right"><span t-out="emp.get('basic')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('gross')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('paye')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('aids_levy')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                    <td class="zw-right"><span t-out="emp.get('total_tax_due')" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr class="zw-total-row">
+                                <td colspan="4" class="zw-left">Totals</td>
+                                <td class="zw-right"><span t-out="zimra.get('totals', {}).get('gross', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="zimra.get('totals', {}).get('paye', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="zimra.get('totals', {}).get('aids_levy', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                                <td class="zw-right"><span t-out="zimra.get('totals', {}).get('total_tax_due', 0)" t-options='{"widget": "monetary", "display_currency": company.currency_id}'/></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_zimra_itf" model="ir.actions.report">
+        <field name="name">ZIMRA ITF Report</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">zimbabwe_payroll.report_zimra_itf_document</field>
+        <field name="report_file">zimbabwe_payroll.report_zimra_itf_document</field>
+    </record>
+</odoo>
